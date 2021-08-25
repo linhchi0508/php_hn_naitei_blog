@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage.story_edit');
 });
+
+Route::resource('stories', 'StoryController');
+Route::post('stories/update/{id}','StoryController@update')->name('story.update');
