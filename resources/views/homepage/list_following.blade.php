@@ -21,7 +21,7 @@
                                             <div class="row merged20">
                                                 <div class="col-lg-7 col-lg-7 col-sm-7">
                                                     <form method="post">
-                                                        <input type="text" placeholder="Search Friend">
+                                                        <input type="text">
                                                         <button type="submit"><i class="fa fa-search"></i></button>
                                                     </form>
                                                 </div>
@@ -33,14 +33,14 @@
                             <div class="central-meta padding30">
                                 <div class="row">
                                     @foreach ($users as $user)
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 " id="user-list">
                                             <div class="friend-box">
                                                 <figure>
                                                     <img src="{{ asset('bower_components/blog_template/images/resources/frnd-cover1.jpg') }}" alt="">
                                                 </figure>
                                                 <div class="frnd-meta">
                                                     @foreach($user->images as $image)
-                                                        <img class="list_image" style="width:30px; height:30px; "src="{{ asset($image->image_url) }}"  alt="">
+                                                        <img class="list-image" src="{{ asset($image->image_url) }}"  alt="">
                                                     @endforeach
                                                     <div class="frnd-name">
                                                         <a href="#" title="">{{ $user->username }}</a>
@@ -50,11 +50,8 @@
                                                         <li><span>{{ trans('homepage.following') }}:</span> {{ $user->total_following }}</li>
                                                         <li><span>{{ trans('homepage.post') }}:</span> {{ $user->total_story }}</li>
                                                     </ul>
-                                                    <form action="{{ route('follow.add', $user->id)}}" method="Post">
-                                                        @method('POST')
-                                                        @csrf
-                                                        <button class="btn-danger d-flex follow" onclick="return confirm('Are you sure ?')">{{ trans('homepage.follow') }}</button>
-                                                    </form> 
+                                                    <meta name="csrf-token" content="{{ csrf_token() }}">
+                                                    <button type="submit" data-id="{{ $user->id }}" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
                                                     <div class="more-opotnz">
                                                         <i class="fa fa-ellipsis-h"></i>
                                                         <ul>

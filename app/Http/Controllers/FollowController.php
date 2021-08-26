@@ -4,33 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\Follow;
 use App\Models\User;
-use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
-    public function ListFollower()
+    public function listFollower()
     {
-        $followers = Follow::where('following_id', Auth::id())->get();
-        $users = [];
-        foreach($followers as $follower){
-            array_push($users, $follower->user );
-        }
+        $users = User::join('follows', 'follows.user_id', '=', 'users.id')
+                ->where('follows.following_id', Auth::id())
+                ->select('users.*')
+                ->get();
 
         return view('homepage.list_follower', compact('users'));
     }
 
-    public function ListFollowing()
+    public function listFollowing()
     {
-        $followers = Follow::where('user_id', Auth::id())->get();
-        $users = [];
-        foreach($followers as $follower){
-            array_push($users, $follower->user );
-        }
-
+        $users = User::join('follows', 'follows.following_id', '=', 'users.id')
+                ->where('follows.user_id', Auth::id())
+                ->select('users.*')
+                ->get();
+       
         return view('homepage.list_following', compact('users'));
     }
 
-    public function follow( $id)
+    public function follow($id)
     {
         $followDataArray = array(
             "user_id" => Auth::id(),
@@ -38,15 +36,19 @@ class FollowController extends Controller
         );
         Follow::create($followDataArray);
 
-        return redirect()->route('follow.following')->with('message', trans('message.create_success'));
+        return response()->json([
+            'success' =>  trans('message.unfollow_success')
+        ]);
     }
 
     public function destroy($id)
     {
-        Follow::where('user_id', Auth::id())
-                ->where('following_id', $id)
-                ->delete();
-
-        return redirect()->route('follow.following')->with('message', trans('message.delete_success'));
+        
+         Follow::where('user_id', $id)
+                ->where('following_id', Auth::id())->delete();
+           
+        return response()->json([
+            'success' =>  trans('message.unfollow_success')
+        ]);
     }
 }
