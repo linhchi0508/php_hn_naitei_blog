@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'Dashboard' => 'Dashboard',
+    'User' => 'User',
+    'List_user' => 'List user',
+    'Create_user' => 'Create user',
+    'List' => 'List',
+    'users' => 'users',
+    'Username' => 'Username',
+    'Inspector' => 'Inspector',
+    'Email' => 'Email',
+    'Role' => 'Role',
+    'Status' => 'Status',
+    'Action' => 'Action',
+    'Active' => 'Active',
+    'Block' => 'Block',
+    'Admin' => 'Admin',
+    'ID' => 'ID',
+    'Create' => 'Create',
+    'Password' => 'Password',
+    'RePassword' => 'RePassword',
+    'Reset' => 'Reset',
+    'Read' => 'Read',
+    'Edit' => 'Edit',
+    'Update' => 'Update',
+    'change_to' => 'change to',
+];
