@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('stories', 'StoryController');
+// Auth::routes();
+Route::post('stories/update/{id}', 'StoryController@update')->name('story.update');
+// Route::get('/home', 'HomeController@index')->name('home');
