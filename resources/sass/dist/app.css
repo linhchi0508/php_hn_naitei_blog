@@ -1,0 +1,25 @@
+.post-meta figure {
+  height: 400px;
+}
+
+.carousel-inner img {
+  width: 1000px !important;
+  height: 400px;
+}
+
+.newpst-input label {
+  margin-left: 100px;
+}
+
+.newpst-input input {
+  border-radius: 20px;
+}
+
+.list_image img {
+  height: 50px;
+  width: 50px;
+}
+
+.follow {
+  float: left;
+}

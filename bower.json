@@ -1,0 +1,20 @@
+{
+  "name": "php_hn_naitei_blog",
+  "description": "",
+  "main": "",
+  "authors": [
+    "linhchi0508 <dang.linh.chi@sun-asterisk.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/linhchi0508/php_hn_naitei_blog",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}

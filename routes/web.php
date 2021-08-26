@@ -19,3 +19,8 @@ Route::get('/', function () {
 
 Route::resource('stories', 'StoryController');
 Route::post('stories/update/{id}','StoryController@update')->name('story.update');
+Route::get('following','FollowController@ListFollowing')->name('follow.following');
+Route::post('following/{id}','FollowController@follow')->name('follow.add');
+Route::delete('follower/{id}','FollowController@destroy')->name('follow.destroy');
+Route::get('follower','FollowController@ListFollower')->name('follow.follower');
+
