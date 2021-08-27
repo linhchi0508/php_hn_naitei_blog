@@ -1,0 +1,48 @@
+/* CSS for login page */
+.contained{
+    position: relative;
+    background-color: #fff;
+    width: 400px;
+    padding: 20px 30px 35px;
+    margin: 30px auto;
+    border-radius: 5px;
+    box-shadow: 0 0 200px rgba(255, 255, 255, 0.9), 0 5px 5px rgba(0, 0, 0, 0.3);
+
+}
+
+.form-info{
+    width: -webkit-fill-available;
+    margin-bottom: 10px;
+    padding: 10px;
+    vertical-align: middle;
+    border: none;
+    background: #D6DBDF;
+    border-radius: 5px;
+    font-size: 15px;
+    color: black;
+    margin-top: 5px;
+}
+
+.invalid-feedback{
+    color: red;
+}
+
+.remember_me {
+    margin: 5px 0px 20px 0px;
+}
+
+.remember_me label input {
+    margin: 0;
+}
+
+.button {
+    margin: 0px auto;
+    display: block;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    background: #5DADE2;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+}
