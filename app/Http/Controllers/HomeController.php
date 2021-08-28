@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Story;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('homepage.index');
+        $stories = Story::with(['comments', 'user.images', 'images'])
+            ->orderByRaw('created_at DESC');
+        $categories = Category::all();
+
+        return view('homepage.index', compact('stories', 'categories'));
     }
 }
