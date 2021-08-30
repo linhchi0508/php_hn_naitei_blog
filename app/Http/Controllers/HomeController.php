@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Story;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -30,5 +31,12 @@ class HomeController extends Controller
         $categories = Category::all();
 
         return view('homepage.index', compact('stories', 'categories'));
+    }
+
+    public function viewProfile()
+    {
+        $stories = Auth::user()->stories;
+        
+        return view('homepage.profile', compact('stories'));
     }
 }

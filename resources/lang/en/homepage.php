@@ -35,5 +35,12 @@ return [
     'profile' => 'Profile',
     'public' => 'Public',
     'draft' => 'Draft',
-    
+    'more_comment' => 'More comment',
+    'personal_info' => 'Personal Info',
+    'about_me' => 'About me',
+    'email' => 'Email',
+    'username' => 'User Name',
+    'edit_profile' => 'Edit Profile',
+    'status' => 'Status',
+    'post_your_comment' => 'Post your comment',
 ];

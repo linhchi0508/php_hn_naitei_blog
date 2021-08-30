@@ -103,7 +103,7 @@
                                                     <img class="user-image" src="{{ asset($image->image_url) }}" alt="">
                                                 @endforeach
                                             </figure>
-                                        @endforeach
+                                        @endif
                                         <div class="newpst-input">
                                             <textarea rows="2" placehole="{{ trans('homepage.message_content') }}" name="content"></textarea>
                                             @if ($errors->has('content'))
