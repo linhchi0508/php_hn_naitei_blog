@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'Dashboard' => 'Bảng điều khiển',
+    'User' => 'Người dùng',
+    'List_user' => 'Danh sách người dùng',
+    'Create_user' => 'Tạo tài khoản',
+    'List' => 'Danh sách',
+    'users' => 'người dùng',
+    'Username' => 'Tên tài khoản',
+    'Inspector' => 'Thanh tra',
+    'Email' => 'Email',
+    'Role' => 'Vai trò',
+    'Status' => 'Trạng thái',
+    'Action' => 'Hành động',
+    'Active' => 'Hoạt động',
+    'Block' => 'Khóa',
+    'Admin' => 'Quản trị viên',
+    'ID' => 'ID',
+    'Create' => 'Tạo',
+    'Password' => 'Mật khẩu',
+    'RePassword' => 'Nhập lại mật khẩu',
+    'Reset' => 'Reset',
+    'Read' => 'Đọc',
+    'Edit' => 'Sửa',
+    'Update' => 'Cập nhật',
+    'change_to' => 'đổi thành',
+];

@@ -18,3 +18,14 @@ Route::redirect('/', '/home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('users', UserController::class)->names([
+        'create' => 'create_user',
+        'store' => 'store_user',
+        'index' => 'list_user',
+        'edit' => 'edit_user',
+        'update' => 'update_user',
+        'show' => 'read_user',
+    ]);
+});
