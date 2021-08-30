@@ -3,8 +3,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ trans('homepage.web_title') }}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/index.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('bower_components/blog_template/images/fav.png') }}" type="image/png" sizes="16x16"> 
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/weather-icons.min.css') }}">
@@ -48,14 +51,18 @@
                 </li>
             </ul>
             <div class="user-img">
-                <h5>{{ trans('homepage.user_name') }}</h5>
-                <img src="{{ asset('bower_components/blog_template/images/resources/admin.jpg') }}" alt="">
+                <h5>{{ Auth::user()->username }}</h5>
+                @if (count(Auth::user()->images) > config('number.zero'))
+                    <img class="user-avatar-img" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                @else
+                    <img class="user-avatar-img" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                @endif
                 <span class="status f-online"></span>
                 <div class="user-setting">
                     <span class="seting-title">{{ trans('homepage.user_setting') }}</span>
                     <ul class="log-out">
                         <li><a href="#" title=""><i class="ti-user"></i>{{ trans('homepage.user_setting') }}</a></li>
-                        <li><a href="#" title=""><i class="ti-pencil-alt"></i>{{ trans('homepage.view_profile') }}</a></li>
+                        <li><a href="{{ route('profile') }}" title=""><i class="ti-pencil-alt"></i>{{ trans('homepage.view_profile') }}</a></li>
                         <li>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();" title="">
@@ -83,10 +90,14 @@
                                 <div class="col-lg-2 col-md-3">
                                     <div class="profile-author">
                                         <div class="profile-author-thumb">
-                                            <img alt="author" src="{{ asset('bower_components/blog_template/images/resources/author.jpg') }}">
+                                        @if (count(Auth::user()->images) > config('number.zero'))
+                                            <img alt="author" src="{{ asset(Auth::user()->images[0]->image_url) }}">
+                                        @else
+                                            <img src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                        @endif
                                         </div>
                                         <div class="author-content">
-                                            <a class="h4 author-name" href="#">{{ trans('homepage.user_name') }}</a>
+                                            <a class="h4 author-name" href="#">{{ Auth::user()->username }}</a>
                                         </div>
                                     </div>
                                 </div>

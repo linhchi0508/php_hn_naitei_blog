@@ -31,3 +31,5 @@ Route::group(['prefix' => 'admin'], function () {
         'show' => 'read_user',
     ]);
 });
+
+Route::get('profile', 'HomeController@viewProfile')->name('profile');

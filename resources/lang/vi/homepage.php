@@ -35,4 +35,12 @@ return [
     'profile' => 'Thông tin cá nhân',
     'public' => 'Công khai',
     'draft' => 'Nháp',
+    'more_comment' => 'Xem thêm bình luận',
+    'personal_info' => 'Thông tin người dùng',
+    'about_me' => 'Về tôi',
+    'email' => 'Địa chỉ mail',
+    'username' => 'Tên đăng nhập',
+    'edit_profile' => 'Sửa hồ sơ',
+    'status' => 'Trạng thái',
+    'post_your_comment' => 'Gửi bình luận',
 ];
