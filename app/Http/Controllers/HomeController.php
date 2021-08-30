@@ -8,6 +8,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Story;
 use App\Models\Follow;
+use App\Models\User;
 use App\Models\Category;
 use Session;
 use App\Models\Image;
@@ -34,10 +35,13 @@ class HomeController extends Controller
         $stories = Story::with(['comments', 'user.images', 'images'])
             ->orderByRaw('created_at DESC')
             ->get();
-
+        $users = User::whereNotIn('id', Follow::select('following_id')->where('user_id', '=', Auth::id())->get())
+            ->orderByRaw('created_at DESC')
+            ->limit(config('ad.limit'))
+            ->get();
         $categories = Category::all();
 
-        return view('homepage.index', compact('stories', 'categories'));
+        return view('homepage.index', compact('stories', 'categories', 'users'));
     }
 
     public function changeLanguage($language)

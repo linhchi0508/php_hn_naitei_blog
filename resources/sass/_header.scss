@@ -38,9 +38,9 @@
     margin-top: -10px;
 }
 
-.list_image img {
-    height: 50px;
-    width: 50px;
+.list_image {
+    height: 50px !important;
+    width: 50px !important;
 }
 
 .follow {
@@ -49,4 +49,19 @@
 
 #unfollow {
     display: none;
+}
+
+.big_avatar {
+    width: 150px;
+    height: 150px;
+}
+
+.img-circle {
+    width: 200px;
+    height: 200px;
+}
+
+.world-map {
+    height: 250px;
+    width: 100%;
 }

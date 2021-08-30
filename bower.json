@@ -13,9 +13,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "public/bower_components/"
   ],
   "dependencies": {
-    "blog_template": "https://github.com/linhchi0508/blog_template.git"
+    "blog_template": "https://github.com/linhchi0508/blog_template.git",
+    "admin": "https://github.com/linhchi0508/admin.git"
   }
 }
