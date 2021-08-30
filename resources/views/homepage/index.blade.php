@@ -111,7 +111,7 @@
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title">{{ trans('alert.title') }}</h5>
+                                                                <h5 class="modal-title">{{ trans('homepage.alert_title') }}</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -120,7 +120,7 @@
                                                                 {{ $errors->first('content') }}
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('alert.close') }}</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('homepage.alert_close') }}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -153,12 +153,12 @@
                                 </form>
                             </div>
                             <div class="loadMore">
-                                <div class="central-meta item">
-                                    <div class="user-post">
-                                        @foreach($stories as $story)
+                                @foreach ($stories as $story)
+                                    <div class="central-meta item">
+                                        <div class="user-post">
                                             <div class="friend-info mt-5" id="story-list">
                                                 <figure>
-                                                    @foreach($story->user->images as $image)
+                                                    @foreach ($story->user->images as $image)
                                                         <img class="user-image" src="{{ asset($image->image_url) }}" alt="">
                                                     @endforeach
                                                 </figure>
@@ -266,9 +266,9 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        @endforeach    
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>	

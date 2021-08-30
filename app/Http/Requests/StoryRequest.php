@@ -24,7 +24,6 @@ class StoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
             'content' => 'required',
         ];
     }
@@ -32,7 +31,6 @@ class StoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => trans('message.title_required'),
             'content.required' => trans('message.content_required'),
         ];
     }

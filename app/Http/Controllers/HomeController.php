@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Story;
+use App\Models\Follow;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +27,9 @@ class HomeController extends Controller
     public function index()
     {
         $stories = Story::with(['comments', 'user.images', 'images'])
-            ->orderByRaw('created_at DESC');
+            ->orderByRaw('created_at DESC')
+            ->get();
+
         $categories = Category::all();
 
         return view('homepage.index', compact('stories', 'categories'));

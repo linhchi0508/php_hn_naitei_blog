@@ -43,4 +43,12 @@ return [
     'edit_profile' => 'Sửa hồ sơ',
     'status' => 'Trạng thái',
     'post_your_comment' => 'Gửi bình luận',
+    'delete' => 'Xóa',
+    'alert_title' => 'Cảnh báo',
+    'alert_close'=> 'Đóng',
+    'edit_story' => 'Chỉnh sửa bài viết',
+    'content_story' => 'Nội dung bài viết',
+    'avatar' => 'Ảnh bài viết',
+    'category' => 'Thể loại',
+    'submit' => 'Gửi',
 ];
