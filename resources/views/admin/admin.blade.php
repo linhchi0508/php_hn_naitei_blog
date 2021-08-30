@@ -1,4 +1,4 @@
-@include('homepage.header')	
+@include('homepage.header')
 
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
@@ -24,3 +24,5 @@
 @yield('content')
 
 </div>
+
+@include('homepage.footer')

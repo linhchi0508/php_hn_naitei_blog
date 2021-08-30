@@ -42,8 +42,8 @@
                         <div data-gutter="10" class="row">
                             <div class="col-md-3">
                                 <ul class="dropdown-meganav-select-list-lang">
-                                    <li><a href="#"><img title="Image Title" alt="Image Alternative text" src="{{ asset('bower_components/blog_template/images/flags/UK.png') }}">{{ trans('homepage.english') }}</a></li>
-							        <li><a href="#"><img title="Image Title" alt="Image Alternative text" src="{{ asset('bower_components/blog_template/images/flags/NAM.png') }}">{{ trans('homepage.vietnam') }}</a></li>
+                                    <li><a href="{{ route('change-language', ['en']) }}"><img title="Image Title" alt="Image Alternative text" src="{{ asset('bower_components/blog_template/images/flags/UK.png') }}">{{ trans('homepage.english') }}</a></li>
+							        <li><a href="{{ route('change-language', ['vi']) }}"><img title="Image Title" alt="Image Alternative text" src="{{ asset('bower_components/blog_template/images/flags/NAM.png') }}">{{ trans('homepage.vietnam') }}</a></li>
                                 </ul>
                             </div>
                         </div>
