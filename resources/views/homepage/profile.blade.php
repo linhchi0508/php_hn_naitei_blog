@@ -22,7 +22,7 @@
                                         {{ Auth::user()->username }}
                                     </p>
                                     <span class="f-title">
-                                    <a href=""><i class="fa fa-pencil"></i>{{ trans('homepage.edit_profile') }}</a>   
+                                    <a href="{{ route('edit-profile') }}"><i class="fa fa-pencil"></i>{{ trans('homepage.edit_profile') }}</a>   
                                 </div>
                             </div>
                             </aside>	

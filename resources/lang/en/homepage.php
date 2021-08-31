@@ -51,4 +51,7 @@ return [
     'avatar' => 'Image',
     'category' => 'Category',
     'submit' => 'Submit',
+    'change_avatar' => 'Change avatar',
+    'edit' => 'Edit',
+    'message_content' => 'What are you thinking?',
 ];
