@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,22 +15,28 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::redirect('/', '/home');
+Route::group(['middleware' => 'localization'], function () {
+    Route::get('change-language/{language}', [HomeController::class, 'changeLanguage'])
+        ->name('change-language');
+    
+    Route::redirect('/', '/home');
 
-Auth::routes();
+    Auth::routes();
 
-Route::resource('stories', 'StoryController')->except(['index']);
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('stories', 'StoryController')->except(['index']);
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::resource('users', UserController::class)->names([
-        'create' => 'create_user',
-        'store' => 'store_user',
-        'index' => 'list_user',
-        'edit' => 'edit_user',
-        'update' => 'update_user',
-        'show' => 'read_user',
-    ]);
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('users', UserController::class)->names([
+            'create' => 'create_user',
+            'store' => 'store_user',
+            'index' => 'list_user',
+            'edit' => 'edit_user',
+            'update' => 'update_user',
+            'show' => 'read_user',
+        ]);
+    });
 });
 Route::get('profile', 'HomeController@viewProfile')->name('profile');
 Route::get('following', 'FollowController@listFollowing')->name('follow.following');

@@ -6,6 +6,7 @@ use App\Models\Story;
 use App\Models\Follow;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class HomeController extends Controller
 {
@@ -40,5 +41,12 @@ class HomeController extends Controller
         $stories = Auth::user()->stories;
         
         return view('homepage.profile', compact('stories'));
+    }
+
+    public function changeLanguage($language)
+    {
+        Session::put('website_language', $language);
+
+        return redirect()->back();
     }
 }
