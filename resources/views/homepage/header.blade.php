@@ -104,7 +104,7 @@
                                 <div class="col-lg-11 col-md-11">
                                     <ul class="profile-menu">
                                         <li>
-                                            <a class="" href="#">{{ trans('homepage.timeline') }}</a>
+                                            <a class="" href="{{ route('home') }}">{{ trans('homepage.timeline') }}</a>
                                         </li>
                                         <li>
                                             <a class="" href="#">{{ trans('homepage.profile') }}</a>
@@ -119,11 +119,6 @@
                                             <a class="" href="#">{{ trans('homepage.bookmark') }}</a>
                                         </li>
                                     </ul>
-                                    <ol class="folw-detail">
-                                        <li><span>{{ trans('homepage.post') }}</span><ins>101</ins></li>
-                                        <li><span>{{ trans('homepage.follower') }}</span><ins>1.3K</ins></li>
-                                        <li><span>{{ trans('homepage.following') }}</span><ins>22</ins></li>
-                                    </ol>
                                 </div>
                             </div>
                         </div>	

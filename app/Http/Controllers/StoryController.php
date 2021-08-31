@@ -14,11 +14,6 @@ class StoryController extends Controller
     {
         $this->middleware('auth');
     }
-    
-    public function create()
-    {
-        return view('homepage.index');
-    }
 
     public function store(StoryRequest $request)
     {
@@ -40,7 +35,7 @@ class StoryController extends Controller
             }
         }
 
-        return redirect()->route('stories.index')->with('message', trans('message.create_success'));
+        return redirect()->route('home')->with('message', trans('message.create_success'));
     }
 
     public function show($id)

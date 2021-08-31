@@ -43,4 +43,12 @@ return [
     'edit_profile' => 'Edit Profile',
     'status' => 'Status',
     'post_your_comment' => 'Post your comment',
+    'delete' => 'Delete',
+    'alert_title' => 'Warning',
+    'alert_close' => 'Close',
+    'edit_story' => 'Edit Story',
+    'content_story' => 'Story Content',
+    'avatar' => 'Image',
+    'category' => 'Category',
+    'submit' => 'Submit',
 ];
