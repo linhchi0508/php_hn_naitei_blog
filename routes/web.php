@@ -43,11 +43,12 @@ Route::group(['middleware' => 'localization'], function () {
     Route::get('/edit-profile', 'HomeController@editProfile')->name('edit-profile');
     Route::put('/edit-profile', 'HomeController@updateProfile')->name('edit-profile');
 
-    // route for follow feature
     Route::get('following', 'FollowController@listFollowing')->name('follow.following');
     Route::get('follower', 'FollowController@listFollower')->name('follow.follower');
     Route::middleware(['auth'])->group(function () {
         Route::post('following/{id}', 'FollowController@follow')->name('follow.add');
         Route::delete('follower/{id}', 'FollowController@destroy')->name('follow.destroy');
     });
+
+    Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);
 });

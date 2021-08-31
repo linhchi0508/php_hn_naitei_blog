@@ -54,4 +54,5 @@ return [
     'change_avatar' => 'Đổi avatar',
     'edit' => 'Sửa',
     'message_content' => 'Bạn đang nghĩ gì',
+    'post_your_comment' => 'Đăng bình luận',
 ];

@@ -75,7 +75,24 @@
     font-size: 16px;
 }
 
-.user-image {
+.user-post-img {
     width: 70px;
     height: 70px;
+}
+
+.cmt {
+    background-color: #E5E7E9;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 6px;
+}
+
+.user-image {
+    height: 60px;
+}
+
+.cmt-image {
+    width: 36px;
+    height: 36px;
 }

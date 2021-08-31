@@ -17,6 +17,8 @@ class Comment extends Model
         'content',
         'status',
         'parent',
+        'stories_id',
+        'users_id',
     ];
 
     public function story()

@@ -8,6 +8,7 @@ require('./bootstrap');
 require('./following');
 require('./follow');
 require('./edit_profile');
+require('./comment');
 
 window.Vue = require('vue');
 
