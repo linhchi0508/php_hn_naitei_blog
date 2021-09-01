@@ -82,6 +82,10 @@
 
 .cmt {
     background-color: #E5E7E9;
+}
+
+.cmt-rep {
+    background-color: #646d77;
     border: none;
     border-radius: 5px;
     width: 100%;
