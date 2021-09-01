@@ -54,4 +54,5 @@ return [
     'change_avatar' => 'Change avatar',
     'edit' => 'Edit',
     'message_content' => 'What are you thinking?',
+    'post_your_comment' => 'Post your comment',
 ];
