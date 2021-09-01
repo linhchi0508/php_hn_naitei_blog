@@ -33,6 +33,7 @@ class HomeController extends Controller
     public function index()
     {
         $stories = Story::with(['comments', 'user.images', 'images'])
+            -> where('status', '=', 'public')
             ->orderByRaw('created_at DESC')
             ->get();
         $users = User::whereNotIn('id', Follow::select('following_id')->where('user_id', '=', Auth::id())->get())
@@ -66,7 +67,6 @@ class HomeController extends Controller
     public function updateProfile(Request $request)
     {
         $data = $request->all();
-
         $user = Auth::user();
         $user->username = $data['username'];
         $user->email = $data['email'];
@@ -86,5 +86,24 @@ class HomeController extends Controller
         }
 
         return redirect("/");
+    }
+
+    public function listUser()
+    {
+        $users = User::where('status', config('ad.one'))
+            ->where('id', '!=', Auth::id())
+            ->get();
+
+        return view('homepage.list_user', compact('users'));
+    }
+
+    public function userDetail($id)
+    {
+        $user = User::findorFail($id);
+        $stories = $user->stories;
+        $follower = Auth::user()->follows
+            ->where('following_id', $id);
+        
+        return view('homepage.user_detail', compact('stories', 'user', 'follower'));
     }
 }

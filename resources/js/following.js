@@ -1,6 +1,7 @@
-$("#follow").click(function(){
+$(".following").click(function(){
     var path = $(this).attr("action");
-   
+    var id = $(this).attr("data-id");
+
     if (confirm("Are you sure Follow?")) {
         $.ajaxSetup({
             headers: {
@@ -11,8 +12,8 @@ $("#follow").click(function(){
             url: path,
             type: "post",
             success: function() {
-                $('#follow').toggle();
-                $('#unfollow').toggle();
+                $("#user-list-" + id).remove();
+                alert("Follow success!");
            }
         });
     }

@@ -17,16 +17,6 @@
                                                 <h5>{{ trans('homepage.follower') }}<span>{{ count($users) }}</span></h5>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="row merged20">
-                                                <div class="col-lg-7 col-lg-7 col-sm-7">
-                                                    <form method="post">
-                                                        <input type="text" >
-                                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +24,7 @@
                                 <div class="row">
                                     @foreach ($users as $user)
                                         @if ($user->follows != Null)
-                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="col-lg-3 col-md-6 col-sm-6" id="user-list-{{ $user->id}}">
                                                 <div class="friend-box">
                                                     <figure>
                                                         <img src="{{ asset('bower_components/blog_template/images/resources/frnd-cover1.jpg') }}" alt="">
@@ -51,8 +41,7 @@
                                                             <li><span>{{ trans('homepage.post') }}:</span> {{ $user->total_story }}</li>
                                                         </ul>
                                                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                        <button type="submit" id="follow" action="{{ route('follow.add', $user->id)}}" class="btn btn-danger">{{ trans('homepage.follow') }}</button>
-                                                        <button type="submit" id="unfollow" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
+                                                        <a class="" href="{{ route('user-detail', $user->id)}}" title="">{{ trans('homepage.view_more') }}</a>
                                                         <div class="more-opotnz">
                                                             <i class="fa fa-ellipsis-h"></i>
                                                             <ul>

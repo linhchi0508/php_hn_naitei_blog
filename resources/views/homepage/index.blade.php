@@ -74,7 +74,7 @@
                                     <h4 class="widget-title">{{ trans('homepage.who_follow') }}</h4>
                                     <ul class="followers">
                                         @foreach ($users as $user)
-                                            <li>
+                                            <li id="user-list-{{ $user->id}}">
                                                 @if (count($user->images) == 0)
                                                     <figure><img src="{{ asset('bower_components/blog_template/images/resources/friend-avatar2.jpg') }}" alt=""></figure>
                                                 @else
@@ -84,7 +84,7 @@
                                                 @endif
                                                 <div class="friend-meta">
                                                     <h4><a href="#" title="">{{ $user->username }}</a></h4>
-                                                    <button type="submit" id="follow" action="{{ route('follow.add', $user->id)}}" class="btn-primary">{{ trans('homepage.follow') }}</button>
+                                                    <button type="submit" id="" data-id={{ $user->id }} action="{{ route('follow.add', $user->id)}}" class="btn-primary following">{{ trans('homepage.follow') }}</button>
                                                 </div>
                                             </li>
                                         @endforeach
@@ -155,9 +155,9 @@
                             </div>
                             <div class="loadMore">
                                 @foreach ($stories as $story)
-                                    <div class="central-meta item">
+                                    <div class="central-meta item" id="list-story-{{ $story->id }}">
                                         <div class="user-post">
-                                            <div class="friend-info mt-5" id="story-list">
+                                            <div class="friend-info mt-5">
                                                 <figure>
                                                     @if (count(Auth::user()->images) != config('number.zero'))
                                                         <img class="user-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
@@ -175,15 +175,20 @@
                                                                 </li>
                                                                 <li>
                                                                     <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                                    <button type="submit" data-id="{{ $story->id }}" action="{{ route('stories.destroy', $story->id)}}" class="btn btn-danger remove">{{ trans('homepage.delete') }}</button>
+                                                                    <button type="submit" data-id="{{ $story->id }}" data-path="{{ route('stories.destroy', $story->id)}}" class="btn btn-danger story-delete">{{ trans('homepage.delete') }}</button>
                                                                 </li>
                                                                 <li>
                                                                     <a class="btn btn-danger" href="#">{{ trans('homepage.bookmark') }}</a>
                                                                 </li>
+                                                                @cannot ('is-user')
+                                                                    <li>
+                                                                        <a class="btn btn-danger" href="#">{{ trans('homepage.hide') }}</a>
+                                                                    </li>
+                                                                @endcannot
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <ins><h5><b><a class="text-primary user-name" href="#" title="">{{ $story->user->username }}</a></b></h5>
+                                                    <ins><h5><b><a class="text-primary user-name" href="{{ route('user-detail', $story->users_id) }}" title="">{{ $story->user->username }}</a></b></h5>
                                                     <span class="story-date"><b><i class="fa fa-globe"></i> {{ $story->status }}: {{ $story->created_at }} </span></b><br>
                                                     <span>{{ trans('homepage.category') }} : {{ $story->category->name }}</span>
                                                 </div>

@@ -14,17 +14,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="align-left">
-                                                <h5>{{ trans('homepage.following') }}<span>{{ count($users) }}</span></h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="row merged20">
-                                                <div class="col-lg-7 col-lg-7 col-sm-7">
-                                                    <form method="post">
-                                                        <input type="text">
-                                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                                    </form>
-                                                </div>
+                                                <h5>{{ trans('homepage.following') }}<span id="follow-count">{{ count($users) }}</span></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -33,7 +23,7 @@
                             <div class="central-meta padding30">
                                 <div class="row">
                                     @foreach ($users as $user)
-                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                        <div class="col-lg-3 col-md-6 col-sm-6" id="user-list-{{ $user->id}}">
                                             <div class="friend-box">
                                                 <figure>
                                                     <img src="{{ asset('bower_components/blog_template/images/resources/frnd-cover1.jpg') }}" alt="">
@@ -50,7 +40,7 @@
                                                         <li><span>{{ trans('homepage.post') }}:</span> {{ $user->total_story }}</li>
                                                     </ul>
                                                     <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                    <button type="submit" data-id="{{ $user->id }}" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
+                                                    <button type="submit" data-path="{{ count($users) }}" data-id="{{ $user->id }}" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
                                                     <div class="more-opotnz">
                                                         <i class="fa fa-ellipsis-h"></i>
                                                         <ul>

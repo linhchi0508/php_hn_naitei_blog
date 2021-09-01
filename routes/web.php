@@ -27,7 +27,7 @@ Route::group(['middleware' => 'localization'], function () {
 
     Route::get('/home', 'HomeController@index')->name('home');
 
-    Route::group(['prefix' => 'admin'], function () {
+    Route::middleware('can:is-admin')->prefix('admin')->group(function () {
         Route::resource('users', UserController::class)->names([
             'create' => 'create_user',
             'store' => 'store_user',
@@ -40,14 +40,18 @@ Route::group(['middleware' => 'localization'], function () {
 
     // route for profile feature
     Route::get('profile', 'HomeController@viewProfile')->name('profile');
-    Route::get('/edit-profile', 'HomeController@editProfile')->name('edit-profile');
-    Route::put('/edit-profile', 'HomeController@updateProfile')->name('edit-profile');
 
+    Route::get('/list-user', 'HomeController@listUser')->name('list-user');
+    Route::get('user/{id}', 'HomeController@userDetail')->name('user-detail');
+    
+    // route for follow feature
     Route::get('following', 'FollowController@listFollowing')->name('follow.following');
     Route::get('follower', 'FollowController@listFollower')->name('follow.follower');
     Route::middleware(['auth'])->group(function () {
         Route::post('following/{id}', 'FollowController@follow')->name('follow.add');
         Route::delete('follower/{id}', 'FollowController@destroy')->name('follow.destroy');
+        Route::get('/edit-profile', 'HomeController@editProfile')->name('edit-profile');
+        Route::put('/edit-profile', 'HomeController@updateProfile')->name('edit-profile');
     });
 
     Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);

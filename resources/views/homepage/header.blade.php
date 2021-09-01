@@ -101,13 +101,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-11 col-md-11">
+                                <div class="col-12">
                                     <ul class="profile-menu">
                                         <li>
                                             <a class="" href="{{ route('home') }}">{{ trans('homepage.timeline') }}</a>
                                         </li>
                                         <li>
-                                            <a class="" href="#">{{ trans('homepage.profile') }}</a>
+                                            <a class="" href="{{ route('profile') }}">{{ trans('homepage.profile') }}</a>
                                         </li>
                                         <li>
                                             <a class="" href="{{ route('follow.follower') }}">{{ trans('homepage.follower') }}</a>
@@ -118,6 +118,14 @@
                                         <li>
                                             <a class="" href="#">{{ trans('homepage.bookmark') }}</a>
                                         </li>
+                                        <li>
+                                            <a class="" href="{{ route('list-user') }}">{{ trans('homepage.list-user') }}</a>
+                                        </li>
+                                        @can ('is-admin')
+                                            <li>
+                                                <a class="" href="{{ route('list_user') }}">{{ trans('homepage.user-manage') }}</a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </div>
                             </div>

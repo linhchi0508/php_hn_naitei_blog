@@ -1,5 +1,7 @@
 $(".remove").click(function(){
     var path = $(this).attr("action");
+    var id = $(this).attr("data-id");
+    var count = $(this).attr("data-path");
     if (confirm("Are you sure ?")) {
         $.ajaxSetup({
             headers: {
@@ -10,7 +12,10 @@ $(".remove").click(function(){
             url: path,
             type: "delete",
             success: function() {
-                $("#user-list").remove();
+                count--;
+                $("#follow-count").text(count);
+                $("#user-list-" + id).remove();
+                alert("Unfollow success!");
            }
         });
     }

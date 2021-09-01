@@ -7,8 +7,8 @@
             <div class="col-8 ml-5 pl-5">
                 <h1 class="ml-5 mb-4">{{ trans('admin.User') }} {{ trans('admin.Read') }}</h1>
             </div>
-            <div class="row  d-flex justify-content-center">
-                <div class="col-3 mr-5">
+            <div class="row">
+                <div class="col-3 mr-5 ">
                     @if (count($detailUser->images) != config('ad.zero'))
                         @foreach ($detailUser->images as $image)
                             <img src="{{ asset($image->image_url) }}" class="img-circle elevation-2" alt="User Image">

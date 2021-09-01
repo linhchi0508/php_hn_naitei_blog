@@ -9,6 +9,8 @@ require('./following');
 require('./follow');
 require('./edit_profile');
 require('./comment');
+require('./post_delete');
+require('./alert');
 
 window.Vue = require('vue');
 

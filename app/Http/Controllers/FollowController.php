@@ -45,8 +45,8 @@ class FollowController extends Controller
 
     public function destroy($id)
     {
-        Follow::where('user_id', $id)
-            ->where('following_id', Auth::id())->delete();
+        $user = Auth::user()->follows->where('following_id', $id)->first();
+        $user->delete();
 
         return response()->json([
             'success' =>  trans('message.unfollow_success')

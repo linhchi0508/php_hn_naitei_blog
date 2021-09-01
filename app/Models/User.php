@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Story;
 use App\Models\Image;
 use App\Models\Like;
@@ -64,7 +65,7 @@ class User extends Authenticatable
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'users_id');
+        return $this->hasMany(Comment::class);
     }
 
     public function bookmarks()
