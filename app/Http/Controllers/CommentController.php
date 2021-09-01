@@ -42,4 +42,47 @@ class CommentController extends Controller
             return response('fail');
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $comment = Comment::findOrFail($id);
+        $comment->content = $data['content'];
+        $comment->save();
+
+        return response()->json([
+            'success' => 'success',
+            'content' => $data['content'],
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $comment = Comment::findOrFail($id);
+        if ($comment) {
+            $comment->delete();
+            $child = Comment::where('parent', $id)->delete();
+            return response()->json([
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'fail',
+            ]);
+        }
+    }
 }

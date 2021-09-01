@@ -98,49 +98,72 @@
                                                     </div>
                                                     <div class="coment-area" style="">
                                                         <ul class="we-comet">
-                                                            <li>
-                                                                <div class="comet-avatar">
-                                                                    <img src="{{ asset('bower_components/blog_template/images/resources/nearly3.jpg') }}" alt="">
-                                                                </div>
-                                                                <div class="we-comment">
-                                                                    <h5><a href="#" title="">Jason borne</a></h5>
-                                                                    <p>we are working for the dance and sing songs. this video is very awesome for the youngster. please vote this video and like our channel</p>
-                                                                    <div class="inline-itms">
-                                                                        <span>1 year ago</span>
-                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                                        <a href="#" title=""><i class="fa fa-heart"></i><span>20</span></a>
-                                                                    </div>
-                                                                </div>
+                                                            @foreach ($story->comments as $comment)
+                                                                @if ($comment->status == config('number.one'))
+                                                                    @if ($comment->parent == null)
+                                                                        <li>
+                                                                            <div class="comet-avatar">
+                                                                                @if (count($comment->user->images) != config('number.zero'))
+                                                                                    <img class="cmt-image" src="{{ asset($comment->user->images[0]->image_url) }}" alt="">
+                                                                                @else
+                                                                                    <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="we-comment">
+                                                                                <h5><a href="#" title="">{{ $comment->user->username }}</a></h5>
+                                                                                <p>{{ $comment->content }}</p>
+                                                                                <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
+                                                                                    <span>{{ $comment->created_at }}</span>
+                                                                                    <a class="we-reply" href="#" title="{{ trans('homepage.reply') }}"><i class="fa fa-reply"></i></a>
+                                                                                </div>
+                                                                                @if ($comment->users_id == Auth::id())
+                                                                                    <a class="edit-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.edit') }}</a>
+                                                                                    <a class="delete-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.delete') }}</a>
+                                                                                @endif
+                                                                            </div>
+                                                                        </li>
+                                                                        @foreach ($story->comments as $item)
+                                                                            @if ($item->parent == $comment->id)
+                                                                                <li class="replied">
+                                                                                    <div class="comet-avatar">
+                                                                                        @if (count($item->user->images) != config('number.zero'))
+                                                                                            <img class="cmt-image" src="{{ asset($item->user->images[0]->image_url) }}" alt="">
+                                                                                        @else
+                                                                                            <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <div class="we-comment">
+                                                                                        <h5><a href title="">{{ $item->user->username }}</a></h5>
+                                                                                        <p class="cmt-content{{ $item->id }}">{{ $item->content }}</p>
+                                                                                        <div attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
+                                                                                            <span>{{ $item->created_at }}</span>
+                                                                                        </div>
+                                                                                        @if ($item->users_id == Auth::id())
+                                                                                            <a class="edit-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.edit') }}</a>
+                                                                                            <a class="delete-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.delete') }}</a>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </li>
+                                                                            @endif
+                                                                        @endforeach
+                                                                        <div class="input-cmt{{ $comment->id }}"></div>
+                                                                    @endif
+                                                                @endif
+                                                            @endforeach
 
-                                                            </li>
-                                                            <li>
-                                                                <div class="comet-avatar">
-                                                                    <img src="{{ asset('bower_components/blog_template/images/resources/comet-4.jpg ') }}" alt="">
-                                                                </div>
-                                                                <div class="we-comment">
-                                                                    <h5><a href="#" title="">Sophia</a></h5>
-                                                                    <p>we are working for the dance and sing songs. this video is very awesome for the youngster.
-                                                                        
-                                                                    </p>
-                                                                    <div class="inline-itms">
-                                                                        <span>1 year ago</span>
-                                                                        <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                                        <a href="#" title=""><i class="fa fa-heart"></i><span>20</span></a>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="" class="showmore underline">{{ trans('homepage.more_comment') }}+</a>
-                                                            </li>
+                                                            <div id="new-cmt{{ $story->id }}"></div>
                                                             <li class="post-comment">
                                                                 <div class="comet-avatar">
-                                                                    <img src="{{ asset('bower_components/blog_template/images/resources/nearly1.jpg') }}" alt="">
+                                                                    @if (count(Auth::user()->images) != config('number.zero'))
+                                                                        <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                                    @else
+                                                                        <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                    @endif
                                                                 </div>
-                                                                <div class="post-comt-box">
-                                                                    <form method="post">
-                                                                        <textarea placeholder="{{ trans('homepage.post_your_comment') }}"></textarea>
-                                                                        <button type="submit"></button>
-                                                                    </form>	
+                                                                <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
+                                                                    <form>
+                                                                        <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
+                                                                    </form>
                                                                 </div>
                                                             </li>
                                                         </ul>

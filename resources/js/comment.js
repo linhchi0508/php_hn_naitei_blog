@@ -37,7 +37,6 @@ $(function() {
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             data: data,
                             success: function(response){
-                                // handle here to display comment
                                 if(response['success'] == "success") {
                                     var new_cmt = 
                                         `<li> 
@@ -47,10 +46,12 @@ $(function() {
                                             <div class='we-comment'>
                                                 <h5><a href='#' title=''>${response['user_name']}</a></h5>
                                                 <p>${response['content']}</p>
-                                                <div class='inline-itms' attr-story_id='${response['story_id']}' attr-user_id='${response['user_id']}' attr-id='2'>
+                                                <div class='inline-itms' attr-story_id='${response['story_id']}' attr-user_id='${response['user_id']}' attr-id=${response['id']}>
                                                     <span>${response['time']}</span>
                                                     <a class='we-reply' title='Reply'><i class='fa fa-reply'></i></a>
                                                 </div>
+                                                <a class='edit-cmt' attr-cmt_id=${response['id']} href>edit</a>
+                                                <a class='delete-cmt' attr-cmt_id=${response['id']} href>delete</a>
                                             </div>
                                         </li>`;
                                     var position = "#new-cmt" + response['story_id']; 
@@ -72,7 +73,7 @@ $(function() {
 
             var story_id_re = i.getAttribute("attr-story_id");
             var user_id_re = i.getAttribute("attr-user_id");
-            var id_re = i.getAttribute("attr-id"); // id cua comment cha
+            var id_re = i.getAttribute("attr-id");
 
             var str_pos = ".input-cmt" + id_re;
 
@@ -93,6 +94,7 @@ $(function() {
             $(cmt_id).on("keypress", function(e) {
                 if(e.which === 13) {
                     e.preventDefault();
+                    e.stopPropagation();
                     var content_re = $(cmt_id).val();
                     $(cmt_id).val('');
                     
@@ -134,6 +136,8 @@ $(function() {
                                                     <div class='inline-itms'>
                                                         <span>${response['time']}</span>
                                                     </div>
+                                                    <a class='edit-cmt' attr-cmt_id=${cmt_id} href>edit</a>
+                                                    <a class='delete-cmt' attr-cmt_id=${cmt_id} href>delete</a>
                                                 </div>
                                             </li>`;
                                         $(pos).before(new_rep);
@@ -144,6 +148,64 @@ $(function() {
                     }
                 }
             });
+        });
+    });
+});
+
+$(function() {
+    Array.from(document.querySelectorAll(".edit-cmt")).forEach( i => {
+        $(i).on("click", function(e) {
+            e.preventDefault();
+            var cmt_id = i.getAttribute("attr-cmt_id");
+            var str_input = `<input class='edit-cmt-content${cmt_id}' type='text' >`;
+            $(i).replaceWith(str_input);
+
+            $(".edit-cmt-content" + cmt_id).on("keypress", function(e) {
+                var edit_content = $(this).val();
+                if (e.which === 13) {
+                    var edit_cmt_data = {
+                        'content': edit_content, 
+                    };
+                    $.ajax({
+                        type: "PUT",
+                        url: "/comments/" + cmt_id,
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: edit_cmt_data,
+                        success: function(response) {
+                            if(response['success'] == "success") {
+                                var new_cmt = `<p class='cmt-content${cmt_id}'>${response['content']}</p>`;
+                                var btn_edit = `<a class='edit-cmt' attr-cmt_id='${cmt_id}' href>edit</a>`;
+                                $(".cmt-content" + cmt_id).replaceWith(new_cmt);
+                                $(".edit-cmt-content" + cmt_id).replaceWith(btn_edit);
+                            }
+                        },
+                    });
+                }
+            });
+        });
+    }); 
+});
+
+$(function() {
+    Array.from(document.querySelectorAll(".delete-cmt")).forEach( i => {
+        $(i).on("click", function(e) {
+            e.preventDefault();
+            var cmt_id = i.getAttribute("attr-cmt_id");
+
+            if (confirm("Are you sure?")) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/comments/" + cmt_id,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    success: function(response){
+                        if(response['message'] == "success") {
+                            location.reload();
+                        } else {
+                            alert('Can not delete this comment.');
+                        }
+                    },
+                });
+            }
         });
     });
 });
