@@ -4,24 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\Story;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\CreateUserRequest;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $user = User::with('role')->where('roles_id', '<>', config('ad.admin'))->orderBy('id', 'desc');
         $all = $user->get();
+        $allStory = count(Story::all());
         $list = $user->paginate(config('ad.paginate'));
         
-        return view('admin.list_user', compact('list', 'all'));
+        return view('admin.list_user', compact('list', 'all', 'allStory'));
     }
 
     /**

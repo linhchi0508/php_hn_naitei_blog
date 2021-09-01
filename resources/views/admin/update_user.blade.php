@@ -2,15 +2,12 @@
 @section('content')
 <!-- Page Content -->
 <div id="page-wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">{{ trans('admin.User') }}
-                    <small>{{ trans('admin.Edit') }}</small>
-                </h1>
+    <div class="container-fluid row d-flex justify-content-center">
+        <div class="col-7">
+            <div class="text-center mb-2" >
+                <h1>{{ trans('admin.User') }} {{ trans('admin.Edit') }}</h1>
             </div>
-            <!-- /.col-lg-12 -->
-            <div class="col-lg-7">
+            <div >
                 <form action="{{ route('update_user', $userEdit->id) }}" method="POST">
                     @if ($errors->any())
                         <ul>
@@ -22,30 +19,31 @@
                     @method('PUT')
                     @csrf
                     <div class="form-group">
-                        <label>{{ trans('admin.Username') }}</label>
+                        <label><b>{{ trans('admin.Username') }}</b></label>
                         <input class="form-control" name="username" value="{{ $userEdit->username }}" placeholder="" />
                     </div>
                     <div class="form-group">
-                        <label>{{ trans('admin.Email') }}</label>
+                        <label><b>{{ trans('admin.Email') }}</b></label>
                         <input type="email" class="form-control" name="email" value="{{ $userEdit->email }}" readonly="" placeholder="" />
                     </div>
                     <div class="form-group">
-                        <label>{{ trans('admin.Password') }}</label>
+                        <label><b>{{ trans('admin.Password') }}</b></label>
                         <input type="password" class="form-control" name="password" value="{{ $userEdit->password }}" placeholder="" />
                     </div>
                     <div class="form-group">
-                        <label>{{ trans('admin.RePassword') }}</label>
+                        <label><b>{{ trans('admin.RePassword') }}</b></label>
                         <input type="password" class="form-control" name="re_password" value="{{ $userEdit->password }}" placeholder="" />
                     </div>
                     <div class="form-group">
-                        <label>{{ trans('admin.Role') }}:</label> <i>{{ $userEdit->role->name }}</i> {{ trans('admin.change_to') }}                        
+                        <label><b class="mr-2">{{ trans('admin.Role') }}:</b></label> 
+                        <i>{{ $userEdit->role->name }}</i> {{ trans('admin.change_to') }}                        
                         <select name="roles_id">
                             <option value="1">{{ trans('admin.User') }}</option>
                             <option value="3">{{ trans('admin.Inspector') }}</option>
                         </select> 
                     </div>
                     <div class="form-group">
-                        <label>{{ trans('admin.Status') }}:</label> 
+                        <label><b class="mr-2">{{ trans('admin.Status') }}:</b></label> 
                         <i>
                             @if ($userEdit->status == config('ad.active')) 
                                 {{ trans('admin.Active') }} 
@@ -60,8 +58,10 @@
                             <input name="status" value="{{ config('ad.block') }}" type="radio">{{ trans('admin.Block') }}
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-secondary">{{ trans('admin.Update') }}</button>
-                    <button type="reset" class="btn btn-secondary">{{ trans('admin.Reset') }}</button>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-secondary mr-3">{{ trans('admin.Update') }}</button>
+                        <button type="reset" class="btn btn-secondary">{{ trans('admin.Reset') }}</button>
+                    </div>
                 <form>
             </div>
         </div>

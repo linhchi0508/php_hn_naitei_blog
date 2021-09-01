@@ -73,20 +73,21 @@
                                 <div class="widget stick-widget">
                                     <h4 class="widget-title">{{ trans('homepage.who_follow') }}</h4>
                                     <ul class="followers">
-                                        <li>
-                                            <figure><img src="{{ asset('bower_components/blog_template/images/resources/friend-avatar2.jpg') }}" alt=""></figure>
-                                            <div class="friend-meta">
-                                                <h4><a href="#" title="">{{ trans('homepage.user_name') }}</a></h4>
-                                                <a href="#" title="" class="underline">{{ trans('homepage.follow') }}</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <figure><img src="{{ asset('bower_components/blog_template/images/resources/friend-avatar4.jpg') }}" alt=""></figure>
-                                            <div class="friend-meta">
-                                                <h4><a href="#" title="">{{ trans('homepage.user_name') }}</a></h4>
-                                                <a href="#" title="" class="underline">{{ trans('homepage.follow') }}</a>
-                                            </div>
-                                        </li>
+                                        @foreach ($users as $user)
+                                            <li>
+                                                @if (count($user->images) == 0)
+                                                    <figure><img src="{{ asset('bower_components/blog_template/images/resources/friend-avatar2.jpg') }}" alt=""></figure>
+                                                @else
+                                                    @foreach ($user->images as $image)
+                                                        <figure><img src="{{ asset($image->image_url) }}" alt=""></figure>
+                                                    @endforeach
+                                                @endif
+                                                <div class="friend-meta">
+                                                    <h4><a href="#" title="">{{ $user->username }}</a></h4>
+                                                    <button type="submit" id="follow" action="{{ route('follow.add', $user->id)}}" class="btn-primary">{{ trans('homepage.follow') }}</button>
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </aside>

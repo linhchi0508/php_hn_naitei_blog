@@ -51,12 +51,8 @@
                                                             <li><span>{{ trans('homepage.post') }}:</span> {{ $user->total_story }}</li>
                                                         </ul>
                                                         <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                        @if (Auth::id()->follows->following_id == $user->id )
-                                                            <button type="submit" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
-                                                        @else
-                                                            <button type="submit" id="follow" action="{{ route('follow.add', $user->id)}}" class="btn btn-danger">{{ trans('homepage.follow') }}</button>
-                                                            <button type="submit" id="unfollow" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
-                                                        @endif
+                                                        <button type="submit" id="follow" action="{{ route('follow.add', $user->id)}}" class="btn btn-danger">{{ trans('homepage.follow') }}</button>
+                                                        <button type="submit" id="unfollow" action="{{ route('follow.destroy', $user->id)}}" class="btn btn-danger remove">{{ trans('homepage.unfollow') }}</button>
                                                         <div class="more-opotnz">
                                                             <i class="fa fa-ellipsis-h"></i>
                                                             <ul>

@@ -3,7 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ trans('homepage.web_title') }}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -12,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/weather-icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/toast-notification.css') }}">
-    <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/page-tour.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/color.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/blog_template/css/responsive.css') }}">
@@ -90,10 +88,12 @@
                                 <div class="col-lg-2 col-md-3">
                                     <div class="profile-author">
                                         <div class="profile-author-thumb">
-                                        @if (count(Auth::user()->images) > config('number.zero'))
-                                            <img alt="author" src="{{ asset(Auth::user()->images[0]->image_url) }}">
+                                        @if (count(Auth::user()->images) > config('ad.zero'))
+                                            @foreach (Auth::user()->images as $image)
+                                                <img class="big_avatar" alt="author" src="{{ asset($image->image_url) }}">
+                                            @endforeach
                                         @else
-                                            <img src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                            <img class="big_avatar" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
                                         @endif
                                         </div>
                                         <div class="author-content">
@@ -110,10 +110,10 @@
                                             <a class="" href="#">{{ trans('homepage.profile') }}</a>
                                         </li>
                                         <li>
-                                            <a class="" href="#">{{ trans('homepage.follower') }}</a>
+                                            <a class="" href="{{ route('follow.follower') }}">{{ trans('homepage.follower') }}</a>
                                         </li>
                                         <li>
-                                            <a class="" href="#">{{ trans('homepage.following') }}</a>
+                                            <a class="" href="{{ route('follow.following') }}">{{ trans('homepage.following') }}</a>
                                         </li>
                                         <li>
                                             <a class="" href="#">{{ trans('homepage.bookmark') }}</a>
