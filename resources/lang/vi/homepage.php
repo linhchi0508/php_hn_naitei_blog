@@ -51,4 +51,7 @@ return [
     'avatar' => 'Ảnh bài viết',
     'category' => 'Thể loại',
     'submit' => 'Gửi',
+    'change_avatar' => 'Đổi avatar',
+    'edit' => 'Sửa',
+    'message_content' => 'Bạn đang nghĩ gì',
 ];

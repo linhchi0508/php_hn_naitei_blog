@@ -97,15 +97,15 @@
                                 <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="new-postbox">
-                                        @if(Auth::user()->images != Null)
-                                            <figure>
-                                                @foreach(Auth::user()->images as $image)
-                                                    <img class="user-image" src="{{ asset($image->image_url) }}" alt="">
-                                                @endforeach
-                                            </figure>
-                                        @endif
+                                        <figure>
+                                            @if (count(Auth::user()->images) > config('number.zero'))
+                                                <img class="user-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                            @else
+                                                <img class="user-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                            @endif
+                                        </figure>
                                         <div class="newpst-input">
-                                            <textarea rows="2" placehole="{{ trans('homepage.message_content') }}" name="content"></textarea>
+                                            <textarea rows="2" placeholder="{{ trans('homepage.message_content') }}" name="content"></textarea>
                                             @if ($errors->has('content'))
                                                 <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">

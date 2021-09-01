@@ -60,3 +60,22 @@
     width: 1000px;
     height: 400px;
 }
+
+.user-img-change-profile {
+    width: 80px;
+    height: 80px;
+}
+
+.edit-button {
+    padding: 8px 40px;
+    background: #fa6342;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.user-image {
+    width: 70px;
+    height: 70px;
+}
