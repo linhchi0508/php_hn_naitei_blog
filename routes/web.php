@@ -52,3 +52,5 @@ Route::group(['middleware' => 'localization'], function () {
 
     Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);
 });
+Route::post('like/{id}', 'HomeController@like')->name('like');
+
