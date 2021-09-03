@@ -8,10 +8,11 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Story;
 use App\Models\Follow;
+use App\Models\Image;
 use App\Models\User;
 use App\Models\Category;
 use Session;
-use App\Models\Image;
+use App\Models\Like;
 
 class HomeController extends Controller
 {
@@ -86,5 +87,26 @@ class HomeController extends Controller
         }
 
         return redirect("/");
+    }
+    public function like($id)
+    {
+        $data = new Like();
+        $data->user_id = Auth::id();
+        $data->story_id = $id;
+        $like = Like::where('user_id', Auth::id())
+            ->where('story_id', $id)
+            ->get();
+        if(count($like)>0) 
+        {
+            return response()->json([
+                'bool'=>false
+            ]);
+        } else {
+            $data->save();
+        } 
+       
+        return response()->json([
+            'bool'=>true
+        ]);
     }
 }
