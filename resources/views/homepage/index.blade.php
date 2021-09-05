@@ -256,7 +256,11 @@
                                                                             <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
                                                                                 <span>{{ $comment->created_at}}</span>
                                                                                 <a class="we-reply" href title="{{ trans('homepage.reply') }}"><i class="fa fa-reply"></i></a>
-                                                                            </div>    
+                                                                            </div>
+                                                                            @if ($comment->users_id == Auth::id())
+                                                                                <a class="edit-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.edit') }}</a>
+                                                                                <a class="delete-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.delete') }}</a>
+                                                                            @endif
                                                                         </div>
                                                                     </li>
                                                                     <!-- display comment child -->
@@ -276,6 +280,10 @@
                                                                                     <div attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
                                                                                         <span>{{ $item->created_at }}</span>
                                                                                     </div>
+                                                                                    @if ($item->users_id == Auth::id())
+                                                                                        <a class="edit-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.edit') }}</a>
+                                                                                        <a class="delete-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.delete') }}</a>
+                                                                                    @endif
                                                                                 </div>
                                                                             </li>
                                                                         @endif
@@ -312,7 +320,8 @@
                 </div>
             </div>
         </div>
-    </div>	
+    </div>
+</div>
 </section>
 
 @endsection

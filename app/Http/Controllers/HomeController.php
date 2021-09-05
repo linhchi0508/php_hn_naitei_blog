@@ -54,7 +54,7 @@ class HomeController extends Controller
     public function viewProfile()
     {
         $stories = Auth::user()->stories;
-        
+
         return view('homepage.profile', compact('stories'));
     }
 
