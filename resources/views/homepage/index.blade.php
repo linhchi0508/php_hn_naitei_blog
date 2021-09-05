@@ -230,7 +230,7 @@
                                                     <div class="we-video-info">
                                                         <ul>
                                                             <li>
-                                                                <div class="likes heart" title="Like/Dislike">❤ <span>{{ $story->total_like }}</span></div>
+                                                                <div action="{{ $story->id }}" data-path="{{ route('like', $story->id )}}" data-count="{{ $story->total_like }}" id="like-{{ $story->id }}" class="likes heart" title="Like">❤ <span class="like-count-{{ $story->id }}">{{ $story->total_like }}</span></div>
                                                             </li>
                                                             <li>
                                                                 <span class="comment" title="Comments">
