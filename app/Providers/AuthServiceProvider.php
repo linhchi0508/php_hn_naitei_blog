@@ -33,6 +33,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->roles_id == config('ad.admin');
         });
 
+        Gate::define('is-inspector', function ($user) {
+            return $user->roles_id == config('ad.inspector');
+        });
+
         Gate::define('is-user', function ($user) {
             return $user->roles_id == config('ad.user');
         });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\User;
@@ -12,6 +13,8 @@ use App\Models\Image;
 
 class Story extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -50,7 +53,7 @@ class Story extends Model
     }
     public function getTotalCommentAttribute()
     {
-        return $this->comments()->count();
+        return $this->comments()->where('status', config('number.one'))->count();
     }
 
     public function getTotalLikeAttribute()

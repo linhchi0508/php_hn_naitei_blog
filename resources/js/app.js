@@ -13,6 +13,7 @@ require('./post_delete');
 require('./alert');
 require('./bookmark');
 require('./like');
+require('./hide_item');
 
 window.Vue = require('vue');
 

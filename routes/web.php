@@ -55,10 +55,10 @@ Route::group(['middleware' => 'localization'], function () {
     });
 
     Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);
-
-
     Route::post('bookmark/{id}', 'HomeController@bookmark')->name('bookmark');
     Route::get('list-bookmark', 'HomeController@listBookmark')->name('list_bookmark');
-
     Route::post('like/{id}', 'HomeController@like')->name('like');
+
+    Route::delete('hide-comment/{id}', 'CommentController@hideComment')->name('hide-comment');
+    Route::delete('hide-story/{id}', 'StoryController@hideStory')->name('hide-story');
 });
