@@ -41,7 +41,7 @@ class Story extends Model
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class);
+        return $this->hasMany(Bookmark::class, 'stories_id');
     }
 
     public function images()

@@ -116,7 +116,7 @@
                                             <a class="" href="{{ route('follow.following') }}">{{ trans('homepage.following') }}</a>
                                         </li>
                                         <li>
-                                            <a class="" href="#">{{ trans('homepage.bookmark') }}</a>
+                                            <a class="" href="{{ route('list_bookmark') }}">{{ trans('homepage.bookmark') }}</a>
                                         </li>
                                         <li>
                                             <a class="" href="{{ route('list-user') }}">{{ trans('homepage.list-user') }}</a>

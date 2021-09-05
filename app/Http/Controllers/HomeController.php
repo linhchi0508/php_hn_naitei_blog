@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Category;
 use Session;
 use App\Models\Image;
+use App\Models\Bookmark;
 
 class HomeController extends Controller
 {
@@ -88,6 +89,7 @@ class HomeController extends Controller
         return redirect("/");
     }
 
+
     public function listUser()
     {
         $users = User::where('status', config('ad.one'))
@@ -105,5 +107,30 @@ class HomeController extends Controller
             ->where('following_id', $id);
         
         return view('homepage.user_detail', compact('stories', 'user', 'follower'));
+    }
+
+    public function bookmark($id)
+    {
+        $data = new Bookmark();
+        $data->users_id = Auth::id();
+        $data->stories_id = $id;
+        $bookmarked = Auth::user()->bookmarks->where('stories_id', $id);
+        if (count($bookmarked) > config('number.zero')) {
+            return response()->json([
+                'bool' => false,
+            ]);
+        } else {
+            $data->save();
+        }
+
+        return response()->json([
+            'bool' => true,
+        ]);
+    }
+
+    public function listBookmark()
+    {
+        $bookmark = Bookmark::with(['story', 'user'])->where('users_id', Auth::id())->orderBy('id', 'desc')->get();
+        return view('homepage.list_bookmark', compact('bookmark'));
     }
 }
