@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class FollowController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function listFollower()
     {
         $users = User::join('follows', 'follows.user_id', '=', 'users.id')
@@ -32,6 +38,9 @@ class FollowController extends Controller
 
     public function follow($id)
     {
+        if (Gate::denies('user-active')) {
+            abort(403);
+        }
         $followDataArray = array(
             "user_id" => Auth::id(),
             "following_id" => $id,
@@ -45,6 +54,9 @@ class FollowController extends Controller
 
     public function destroy($id)
     {
+        if (Gate::denies('user-active')) {
+            abort(403);
+        }
         $user = Auth::user()->follows->where('following_id', $id)->first();
         $user->delete();
 

@@ -39,6 +39,7 @@ class HomeController extends Controller
             ->orderByRaw('created_at DESC')
             ->get();
         $users = User::whereNotIn('id', Follow::select('following_id')->where('user_id', '=', Auth::id())->get())
+            ->where('id', '!=', Auth::id())
             ->orderByRaw('created_at DESC')
             ->limit(config('ad.limit'))
             ->get();
@@ -56,7 +57,10 @@ class HomeController extends Controller
 
     public function viewProfile()
     {
-        $stories = Auth::user()->stories;
+        $stories = Story::with(['comments', 'user.images', 'images'])
+            -> where('users_id', '=', Auth::id())
+            ->orderByRaw('created_at DESC')
+            ->get();
 
         return view('homepage.profile', compact('stories'));
     }
@@ -103,7 +107,8 @@ class HomeController extends Controller
     public function userDetail($id)
     {
         $user = User::findorFail($id);
-        $stories = $user->stories;
+        $stories = $user->stories
+            -> where('status', '=', 'public');
         $follower = Auth::user()->follows
             ->where('following_id', $id);
         

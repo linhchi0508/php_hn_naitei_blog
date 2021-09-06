@@ -57,4 +57,12 @@ return [
     'post_your_comment' => 'Đăng bình luận',
     'Detail' => 'Chi tiết',
     'Bookmarked' => 'Đã đánh dấu',
+    'unfollow' => 'Hủy theo dõi',
+    'list-user' => 'Danh sách User',
+    'user-manage' => 'Quản lí User',
+    'hide' => 'Ẩn',
+    'user' => 'User',
+    'view_more' => 'Xem thêm',
+    'home' => 'Trang chủ',
+    'story' => 'Bài viết',
 ];

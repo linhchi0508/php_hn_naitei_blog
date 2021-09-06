@@ -29,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->id == $story->users_id;
         });
 
+        Gate::define('comment', function ($user, $comment) {
+            return $user->id == $comment->users_id;
+        });
+
         Gate::define('is-admin', function ($user) {
             return $user->roles_id == config('ad.admin');
         });
@@ -39,6 +43,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('is-user', function ($user) {
             return $user->roles_id == config('ad.user');
+        });
+
+        Gate::define('user-active', function ($user) {
+            return $user->roles_id == config('ad.one');
         });
     }
 }

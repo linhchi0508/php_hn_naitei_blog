@@ -13,6 +13,9 @@ class StoryController extends Controller
 {
     public function __construct()
     {
+        if (Gate::denies('user-active')) {
+            abort(403);
+        }
         $this->middleware('auth');
     }
 

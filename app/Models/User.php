@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'users_id');
     }
 
     public function bookmarks()

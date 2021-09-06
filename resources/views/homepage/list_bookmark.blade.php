@@ -28,8 +28,8 @@
 											<div class="blog-post">
 												<div class="friend-info">
 													<figure>
-														@if (count(Auth::user()->images) != config('number.zero'))
-	                    									<img class="user-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+														@if (($bm->user->images) != config('ad.zero'))
+	                    									<img class="user-image" src="{{ asset($bm->user->images[0]->image_url) }}" alt="">
 	                    								@else
 	                    									<img class="user-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
 	                    								@endif
@@ -40,20 +40,20 @@
 														<span>{{ trans('homepage.category') }} : {{ $bm->story->category->name }}</span>
 													</div>
 													<div class="post-meta">
-														@if (count($bm->story->images) > config('number.zero'))
-									                        @if (count($bm->story->images) == config('number.one'))
+														@if (count($bm->story->images) > config('ad.zero'))
+									                        @if (count($bm->story->images) == config('ad.one'))
 										                        <figure class="mb-5">
 										                            <img class="image-single" src="{{ asset( $bm->story->images[0]->image_url ) }}">
 										                        </figure>
 									                        @endif
-									                        @if (count($bm->story->images) > config('number.one'))
+									                        @if (count($bm->story->images) > config('ad.one'))
 										                        <figure>
 										                            <div id="demo"  class="carousel slide row"  data-ride="carousel"> 
 										                                <div class="carousel-inner col-12" >
 										                                    <div class="carousel-item active">
 										                                        <img src="{{ asset( $bm->story->images[0]->image_url ) }}" >
 										                                    </div>
-										                                    {{ $k = config('number.one') }}
+										                                    {{ $k = config('ad.one') }}
 										                                    @while ($k < count($bm->story->images))
 										                                    <div class="carousel-item ">
 										                                        <img src="{{ asset( $bm->story->images[$k]->image_url ) }}" >
