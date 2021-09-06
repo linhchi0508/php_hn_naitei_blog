@@ -13,6 +13,7 @@ use App\Models\Category;
 use Session;
 use App\Models\Image;
 use App\Models\Bookmark;
+use App\Models\Like;
 
 class HomeController extends Controller
 {
@@ -132,5 +133,24 @@ class HomeController extends Controller
     {
         $bookmark = Bookmark::with(['story', 'user'])->where('users_id', Auth::id())->orderBy('id', 'desc')->get();
         return view('homepage.list_bookmark', compact('bookmark'));
+    }
+
+    public function like($id)
+    {
+        $data = new Like();
+        $data->user_id = Auth::id();
+        $data->story_id = $id;
+        $like = Auth::user()->likes->where('story_id', $id);
+        if (count($like) > 0) {
+            return response()->json([
+                'bool' => false,
+            ]);
+        } else {
+            $data->save();
+        }
+
+        return response()->json([
+            'bool' => true,
+        ]);
     }
 }
