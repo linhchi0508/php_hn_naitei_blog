@@ -28,11 +28,11 @@
                     </div>
                     <div class="form-group">
                         <label><b>{{ trans('admin.Password') }}</b></label>
-                        <input type="password" class="form-control" name="password" value="{{ $userEdit->password }}" placeholder="" />
+                        <input type="password" class="form-control" name="password" value="{{ $userEdit->password }}" readonly="" placeholder="" />
                     </div>
                     <div class="form-group">
                         <label><b>{{ trans('admin.RePassword') }}</b></label>
-                        <input type="password" class="form-control" name="re_password" value="{{ $userEdit->password }}" placeholder="" />
+                        <input type="password" class="form-control" name="re_password" value="{{ $userEdit->password }}" readonly="" placeholder="" />
                     </div>
                     <div class="form-group">
                         <label><b class="mr-2">{{ trans('admin.Role') }}:</b></label> 
