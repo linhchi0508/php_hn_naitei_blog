@@ -63,4 +63,6 @@ return [
     'view_more' => 'View More',
     'home' => 'Home',
     'story' => 'Story',
+    'Detail' => 'Detail',
+    'Bookmarked' => 'Bookmarked',
 ];

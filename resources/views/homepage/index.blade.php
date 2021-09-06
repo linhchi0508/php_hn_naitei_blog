@@ -178,7 +178,7 @@
                                                                     <button type="submit" data-id="{{ $story->id }}" data-path="{{ route('stories.destroy', $story->id)}}" class="btn btn-danger story-delete">{{ trans('homepage.delete') }}</button>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="btn btn-danger" href="#">{{ trans('homepage.bookmark') }}</a>
+                                                                    <button type="submit" id="bookmark" action="{{ route('bookmark', $story->id) }}" class="btn btn-danger bookmark">{{ trans('homepage.bookmark') }}</button>
                                                                 </li>
                                                                 @cannot ('is-user')
                                                                     <li>

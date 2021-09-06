@@ -55,4 +55,6 @@ return [
     'edit' => 'Sửa',
     'message_content' => 'Bạn đang nghĩ gì',
     'post_your_comment' => 'Đăng bình luận',
+    'Detail' => 'Chi tiết',
+    'Bookmarked' => 'Đã đánh dấu',
 ];
