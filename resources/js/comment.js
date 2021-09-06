@@ -37,11 +37,12 @@ $(function() {
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             data: data,
                             success: function(response){
+                                var url = window.location.origin;
                                 if(response['success'] == "success") {
                                     var new_cmt = 
                                         `<li> 
                                             <div class='comet-avatar'> 
-                                                <img class='cmt-image' src='${response['user_img']}' alt=''>
+                                                <img class='cmt-image' src='${url + '/' + response['user_img']}' alt=''>
                                             </div>
                                             <div class='we-comment'>
                                                 <h5><a href='#' title=''>${response['user_name']}</a></h5>
@@ -122,13 +123,14 @@ $(function() {
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             data: data_re,
                             success: function(response){
+                                var url = window.location.origin;
                                 if(response['success'] == "success") {
                                     if(response['parent'] != null){
                                         var pos = ".replied" + id_re;
                                         var new_rep = 
                                             `<li class='replied'>
                                                 <div class='comet-avatar'>
-                                                    <img src='${response['user_img']}' alt=''>
+                                                    <img class='cmt-image' src='${url + '/' +response['user_img']}' alt=''>
                                                 </div>
                                                 <div class='we-comment'>
                                                     <h5><a href='#' title=''>${response['user_name']}</a></h5>

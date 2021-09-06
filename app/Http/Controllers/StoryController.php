@@ -83,15 +83,29 @@ class StoryController extends Controller
 
     public function destroy($id)
     {
-        $story = Story::findorFail($id);
+        $story = Story::findOrFail($id);
         if (Gate::denies('story', $story)) {
             abort(403);
         }
         $story->images()->delete();
-        $story->delete();
+        Story::withTrashed()->where('id', $id)->forceDelete();
 
         return response()->json([
             'success' =>  trans('message.delete_success')
         ]);
+    }
+
+    public function hideStory($id)
+    {
+        $story = Story::findOrFail($id)->delete();
+        if ($story != null) {
+            return response()->json([
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'fail',
+            ]);
+        }
     }
 }

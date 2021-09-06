@@ -180,14 +180,15 @@
                                                                 <li>
                                                                     <button type="submit" id="bookmark" action="{{ route('bookmark', $story->id) }}" class="btn btn-danger bookmark">{{ trans('homepage.bookmark') }}</button>
                                                                 </li>
-                                                                @cannot ('is-user')
-                                                                    <li>
-                                                                        <a class="btn btn-danger" href="#">{{ trans('homepage.hide') }}</a>
-                                                                    </li>
-                                                                @endcannot
                                                             </ul>
                                                         </div>
                                                     </div>
+                                                    @can ('is-admin')
+                                                        <a class="hide-story" attr-story_id="{{ $story->id }}" href>{{ trans('homepage.hide') }}</a>
+                                                    @endcan
+                                                    @can ('is-inspector')
+                                                        <a class="hide-story" attr-story_id="{{ $story->id }}" href>{{ trans('homepage.hide') }}</a>
+                                                    @endcan
                                                     <ins><h5><b><a class="text-primary user-name" href="{{ route('user-detail', $story->users_id) }}" title="">{{ $story->user->username }}</a></b></h5>
                                                     <span class="story-date"><b><i class="fa fa-globe"></i> {{ $story->status }}: {{ $story->created_at }} </span></b><br>
                                                     <span>{{ trans('homepage.category') }} : {{ $story->category->name }}</span>
@@ -257,20 +258,26 @@
                                                                         </div>
                                                                         <div class="we-comment">
                                                                             <h5><a href title="">{{ $comment->user->username }}</a></h5>
-                                                                            <p>{{ $comment->content }}</p>
+                                                                            <p class="cmt-content{{ $comment->id }}">{{ $comment->content }}</p>
                                                                             <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
-                                                                                <span>{{ $comment->created_at}}</span>
+                                                                                <span>{{ $comment->created_at }}</span>
                                                                                 <a class="we-reply" href title="{{ trans('homepage.reply') }}"><i class="fa fa-reply"></i></a>
                                                                             </div>
                                                                             @if ($comment->users_id == Auth::id())
                                                                                 <a class="edit-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.edit') }}</a>
                                                                                 <a class="delete-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.delete') }}</a>
                                                                             @endif
+                                                                            @can ('is-admin')
+                                                                                <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                            @endcan
+                                                                            @can ('is-inspector')
+                                                                                <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                            @endcan
                                                                         </div>
                                                                     </li>
                                                                     <!-- display comment child -->
                                                                     @foreach ($story->comments as $item)
-                                                                        @if ($item->parent == $comment->id)
+                                                                        @if ($item->parent == $comment->id && $item->status == config('number.one'))
                                                                             <li class="replied">
                                                                                 <div class="comet-avatar">
                                                                                     @if (count($item->user->images) != config('number.zero'))
@@ -289,6 +296,12 @@
                                                                                         <a class="edit-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.edit') }}</a>
                                                                                         <a class="delete-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.delete') }}</a>
                                                                                     @endif
+                                                                                    @can ('is-admin')
+                                                                                        <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                    @endcan
+                                                                                    @can ('is-inspector')
+                                                                                        <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                    @endcan   
                                                                                 </div>
                                                                             </li>
                                                                         @endif

@@ -20,7 +20,7 @@
 <div class="theme-layout">
     <div class="topbar stick">
         <div class="logo">
-            <a title="" href="#"><img src="{{ asset('bower_components/blog_template/images/logo.png') }}" alt=""></a>
+            <a title="" href="{{ route('home') }}"><img src="{{ asset('bower_components/blog_template/images/logo.png') }}" alt=""></a>
 	    </div>
         <div class="top-area">
             <div class="top-search">
@@ -176,7 +176,13 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                        <ins><h5><b><a class="text-primary user-name" href="#" title="">{{ $story->user->username }}</a></b></h5>
+                                                        @can ('is-admin')
+                                                            <a class="hide-story" attr-story_id="{{ $story->id }}" href>{{ trans('homepage.hide') }}</a>
+                                                        @endcan
+                                                        @can ('is-inspector')
+                                                            <a class="hide-story" attr-story_id="{{ $story->id }}" href>{{ trans('homepage.hide') }}</a>
+                                                        @endcan
+                                                        <ins><h5><b><a class="text-primary user-name" href="{{ route('user-detail', $story->users_id) }}" title="">{{ $story->user->username }}</a></b></h5>
                                                         <span class="story-date"><b><i class="fa fa-globe"></i> {{ $story->status }}: {{ $story->created_at }} </span></b><br>
                                                         <span>{{ trans('homepage.category') }} : {{ $story->category->name }}</span>
                                                     </div>
@@ -232,31 +238,82 @@
                                                     <div class="coment-area" >
                                                         <ul class="we-comet">
                                                             @foreach($story->comments as $comment)
-                                                                <li>
-                                                                    <div class="comet-avatar">
-                                                                        @foreach($comment->user->images as $image)
-                                                                            <img src="{{ asset($image->image_url) }}" alt="">
+                                                                @if ($comment->status == config('number.one'))
+                                                                    @if ($comment->parent == null)
+                                                                        <li>
+                                                                            <div class="comet-avatar">
+                                                                                @if (count($comment->user->images) != config('number.zero'))
+                                                                                    <img class="cmt-image" src="{{ asset($comment->user->images[0]->image_url) }}" alt="">
+                                                                                @else
+                                                                                    <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="we-comment">
+                                                                                <h5><a href="{{ route('user-detail', $story->users_id) }}" title="">{{ $comment->user->username }}</a></h5>
+                                                                                <p class="cmt-content{{ $comment->id }}">{{ $comment->content }}</p>
+                                                                                <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
+                                                                                    <span>{{ $comment->created_at }}</span>
+                                                                                    <a class="we-reply" href title="{{ trans('homepage.reply') }}"><i class="fa fa-reply"></i></a>
+                                                                                </div>
+                                                                                @if ($comment->users_id == Auth::id())
+                                                                                    <a class="edit-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.edit') }}</a>
+                                                                                    <a class="delete-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.delete') }}</a>
+                                                                                @endif
+                                                                                @can ('is-admin')
+                                                                                    <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                @endcan
+                                                                                @can ('is-inspector')
+                                                                                    <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                @endcan
+                                                                            </div>
+                                                                        </li>
+                                                                        @foreach ($story->comments as $item)
+                                                                            @if ($item->parent == $comment->id && $item->status == config('number.one'))
+                                                                                <li class="replied">
+                                                                                    <div class="comet-avatar">
+                                                                                        @if (count($item->user->images) != config('number.zero'))
+                                                                                            <img class="cmt-image" src="{{ asset($item->user->images[0]->image_url) }}" alt="">
+                                                                                        @else
+                                                                                            <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <div class="we-comment">
+                                                                                        <h5><a href="{{ route('user-detail', $story->users_id) }}" title="">{{ $item->user->username }}</a></h5>
+                                                                                        <p class="cmt-content{{ $item->id }}">{{ $item->content }}</p>
+                                                                                        <div attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
+                                                                                            <span>{{ $item->created_at }}</span>
+                                                                                        </div>
+                                                                                        @if ($item->users_id == Auth::id())
+                                                                                            <a class="edit-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.edit') }}</a>
+                                                                                            <a class="delete-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.delete') }}</a>
+                                                                                        @endif
+                                                                                        @can ('is-admin')
+                                                                                            <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                        @endcan
+                                                                                        @can ('is-inspector')
+                                                                                            <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                        @endcan   
+                                                                                    </div>
+                                                                                </li>
+                                                                            @endif
                                                                         @endforeach
-                                                                    </div>
-                                                                    <div class="we-comment">
-                                                                        <h5><a href="#" title="">{{ $comment->user->username }}</a></h5>
-                                                                        <p>{{ $comment->content }}</p>
-                                                                        <div class="inline-itms">
-                                                                            <span>{{ $comment->created_at}}</span>
-                                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
+                                                                        <div class="input-cmt{{ $comment->id }}"></div>
+                                                                    @endif
+                                                                @endif
                                                             @endforeach
+                                                            <div id="new-cmt{{ $story->id }}"></div>
                                                             <li class="post-comment">
                                                                 <div class="comet-avatar">
-                                                                    <img src="{{ asset('bower_components/blog_template/images/resources/nearly1.jpg') }}" alt="">
+                                                                    @if (count(Auth::user()->images) != config('number.zero'))
+                                                                        <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                                    @else
+                                                                        <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                    @endif
                                                                 </div>
-                                                                <div class="post-comt-box">
-                                                                    <form method="post">
-                                                                        <textarea></textarea>
-                                                                        <button type="submit"></button>
-                                                                    </form>	
+                                                                <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
+                                                                    <form>
+                                                                        <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
+                                                                    </form>
                                                                 </div>
                                                             </li>
                                                         </ul>

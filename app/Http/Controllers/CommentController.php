@@ -55,13 +55,19 @@ class CommentController extends Controller
         $data = $request->all();
 
         $comment = Comment::findOrFail($id);
-        $comment->content = $data['content'];
-        $comment->save();
+        if ($comment != null) {
+            $comment->content = $data['content'];
+            $comment->save();
 
-        return response()->json([
-            'success' => 'success',
-            'content' => $data['content'],
-        ]);
+            return response()->json([
+                'success' => 'success',
+                'content' => $data['content'],
+            ]);
+        } else {
+            return response()->json([
+                'success' => 'fail',
+            ]);
+        }
     }
 
     /**
@@ -72,10 +78,33 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        $comment = Comment::withTrashed()->where('id', $id)->forceDelete();
+        if ($comment != null) {
+            $child = Comment::where('parent', $id);
+            if ($child != null) {
+                Comment::withTrashed()->where('parent', $id)->forceDelete();
+            }
+
+            return response()->json([
+                'message' => 'success',
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'fail',
+            ]);
+        }
+    }
+
+    public function hideComment($id)
+    {
         $comment = Comment::findOrFail($id);
-        if ($comment) {
+        $child = Comment::where('parent', $id);
+        if ($comment != null) {
             $comment->delete();
-            $child = Comment::where('parent', $id)->delete();
+            if ($child != null) {
+                $child->delete();
+            }
+
             return response()->json([
                 'message' => 'success',
             ]);
