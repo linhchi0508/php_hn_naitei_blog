@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        if (Gate::denies('user-active')) {
+            abort(403);
+        }
+        $this->middleware('auth');
+    }
+    
     public function store(Request $request)
     {
         $data = $request->all();
@@ -52,9 +55,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $data = $request->all();
-
         $comment = Comment::findOrFail($id);
+        if (Gate::denies('story', $comment)) {
+            abort(403);
+        }
         if ($comment != null) {
             $comment->content = $data['content'];
             $comment->save();
@@ -98,6 +104,9 @@ class CommentController extends Controller
     public function hideComment($id)
     {
         $comment = Comment::findOrFail($id);
+        if (Gate::denies('story', $comment)) {
+            abort(403);
+        }
         $child = Comment::where('parent', $id);
         if ($comment != null) {
             $comment->delete();

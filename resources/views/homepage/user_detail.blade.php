@@ -50,7 +50,7 @@
             </ul>
             <div class="user-img">
                 <h5>{{ Auth::user()->username }}</h5>
-                @if (count(Auth::user()->images) > config('number.zero'))
+                @if (count(Auth::user()->images) > config('ad.zero'))
                     <img class="user-avatar-img" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
                 @else
                     <img class="user-avatar-img" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
@@ -237,12 +237,13 @@
                                                     </div>
                                                     <div class="coment-area" >
                                                         <ul class="we-comet">
-                                                            @foreach($story->comments as $comment)
-                                                                @if ($comment->status == config('number.one'))
+                                                            @foreach ($story->comments as $comment)
+                                                                @if ($comment->status == config('ad.one'))
                                                                     @if ($comment->parent == null)
+                                                                        <!-- display parent comment -->
                                                                         <li>
                                                                             <div class="comet-avatar">
-                                                                                @if (count($comment->user->images) != config('number.zero'))
+                                                                                @if (count($comment->user->images) != config('ad.zero'))
                                                                                     <img class="cmt-image" src="{{ asset($comment->user->images[0]->image_url) }}" alt="">
                                                                                 @else
                                                                                     <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
@@ -272,11 +273,19 @@
                                                                                 <li class="replied">
                                                                                     <div class="comet-avatar">
                                                                                         @if (count($item->user->images) != config('number.zero'))
-                                                                                            <img class="cmt-image" src="{{ asset($item->user->images[0]->image_url) }}" alt="">
-                                                                                        @else
-                                                                                            <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
-                                                                                        @endif
                                                                                     </div>
+                                                                                </li>
+                                                                        <!-- display comment child -->
+                                                                                @foreach ($story->comments as $item)
+                                                                                     @if ($item->parent == $comment->id)
+                                                                                        <li class="replied">
+                                                                                            <div class="comet-avatar">
+                                                                                                @if (count($item->user->images) != config('ad.zero'))
+                                                                                                    <img class="cmt-image" src="{{ asset($item->user->images[0]->image_url) }}" alt="">
+                                                                                                @else
+                                                                                                    <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                                                @endif
+                                                                                            </div>
                                                                                     <div class="we-comment">
                                                                                         <h5><a href="{{ route('user-detail', $story->users_id) }}" title="">{{ $item->user->username }}</a></h5>
                                                                                         <p class="cmt-content{{ $item->id }}">{{ $item->content }}</p>
@@ -304,7 +313,7 @@
                                                             <div id="new-cmt{{ $story->id }}"></div>
                                                             <li class="post-comment">
                                                                 <div class="comet-avatar">
-                                                                    @if (count(Auth::user()->images) != config('number.zero'))
+                                                                    @if (count(Auth::user()->images) != config('ad.zero'))
                                                                         <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
                                                                     @else
                                                                         <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">

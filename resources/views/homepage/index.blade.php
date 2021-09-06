@@ -83,7 +83,7 @@
                                                     @endforeach
                                                 @endif
                                                 <div class="friend-meta">
-                                                    <h4><a href="#" title="">{{ $user->username }}</a></h4>
+                                                    <h4><a href="{{ route('user-detail', $user->id)}}" title="">{{ $user->username }}</a></h4>
                                                     <button type="submit" id="" data-id={{ $user->id }} action="{{ route('follow.add', $user->id)}}" class="btn-primary following">{{ trans('homepage.follow') }}</button>
                                                 </div>
                                             </li>
@@ -159,8 +159,8 @@
                                         <div class="user-post">
                                             <div class="friend-info mt-5">
                                                 <figure>
-                                                    @if (count(Auth::user()->images) != config('number.zero'))
-                                                        <img class="user-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                    @if (count($story->user->images) != config('number.zero'))
+                                                        <img class="user-image" src="{{ asset($story->user->images[0]->image_url) }}" alt="">
                                                     @else
                                                         <img class="user-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
                                                     @endif
