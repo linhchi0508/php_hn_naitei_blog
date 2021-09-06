@@ -93,66 +93,71 @@
                             </aside>
                         </div>
                         <div class="col-lg-8">
-                            <div class="central-meta postbox">
-                                <span class="create-post">{{ trans('homepage.create_post') }}</span>
-                                <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="new-postbox">
-                                        <figure>
-                                            @if (count(Auth::user()->images) != config('number.zero'))
-                                                <img class="user-post-img" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
-                                            @else
-                                                <img class="user-post-img" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
-                                            @endif
-                                        </figure>
-                                        <div class="newpst-input">
-                                            <textarea rows="2" placeholder="{{ trans('homepage.message_content') }}" name="content"></textarea>
-                                            @if ($errors->has('content'))
-                                                <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">{{ trans('homepage.alert_title') }}</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                {{ $errors->first('content') }}
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('homepage.alert_close') }}</button>
+                            @can ('is-active')
+                                <div class="central-meta postbox">
+                                    <span class="create-post">{{ trans('homepage.create_post') }}</span>
+                                    <form action="{{ route('stories.store') }}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="new-postbox">
+                                            <figure>
+                                                @if (count(Auth::user()->images) != config('number.zero'))
+                                                    <img class="user-post-img" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                @else
+                                                    <img class="user-post-img" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                @endif
+                                            </figure>
+                                            <div class="newpst-input">
+                                                <textarea rows="2" placeholder="{{ trans('homepage.message_content') }}" name="content"></textarea>
+                                                @if ($errors->has('content'))
+                                                    <div class="modal fade" id="dialog1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">{{ trans('homepage.alert_title') }}</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    {{ $errors->first('content') }}
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('homepage.alert_close') }}</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="attachments">
-                                            <ul>
-                                                <li>
-                                                    <i class="fa fa-image"></i>
-                                                    <label class="fileContainer"><input type="file"  name="photos[]" multiple></label>
-                                                </li>
-                                                <li>
-                                                    <select name="category" id="category">
-                                                        @foreach( $categories as $category)
-                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </li>
-                                                <li>
-                                                    <select name="status" id="status">
-                                                        <option value="public"><i class="fa fa-pencil-square-o"></i>{{ trans('homepage.public') }}</option>
-                                                        <option value="draft"><i class="far fa-sticky-note"></i>{{ trans('homepage.draft') }}</option>
-                                                    </select>
-                                                </li>
-                                            </ul>
-                                            <button class="post-btn" type="submit" data-ripple="">{{ trans('homepage.create_post') }}</button>
-                                        </div>
-                                    </div>	
-                                </form>
-                            </div>
+                                                @endif
+                                            </div>
+                                            <div class="attachments">
+                                                <ul>
+                                                    <li>
+                                                        <i class="fa fa-image"></i>
+                                                        <label class="fileContainer"><input type="file"  name="photos[]" multiple></label>
+                                                    </li>
+                                                    <li>
+                                                        <select name="category" id="category">
+                                                            @foreach( $categories as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </li>
+                                                    <li>
+                                                        <select name="status" id="status">
+                                                            <option value="public"><i class="fa fa-pencil-square-o"></i>{{ trans('homepage.public') }}</option>
+                                                            <option value="draft"><i class="far fa-sticky-note"></i>{{ trans('homepage.draft') }}</option>
+                                                        </select>
+                                                    </li>
+                                                </ul>
+                                                <button class="post-btn" type="submit" data-ripple="">{{ trans('homepage.create_post') }}</button>
+                                            </div>
+                                        </div>	
+                                    </form>
+                                </div>
+                            @endcan
+                            @cannot ('is-active')
+                                <h4 class="mess-blocked">You was blocked</h4>
+                            @endcannot
                             <div class="loadMore">
                                 @foreach ($stories as $story)
                                     <div class="central-meta item" id="list-story-{{ $story->id }}">
@@ -170,13 +175,17 @@
                                                         <div class="more-post-optns">
                                                             <i class="ti-more-alt"></i>
                                                             <ul >
-                                                                <li>
-                                                                    <a class="btn btn-danger" href="{{ route('stories.edit', $story->id) }}">{{ trans('homepage.edit_post') }}</a>
-                                                                </li>
-                                                                <li>
-                                                                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                                                                    <button type="submit" data-id="{{ $story->id }}" data-path="{{ route('stories.destroy', $story->id)}}" class="btn btn-danger story-delete">{{ trans('homepage.delete') }}</button>
-                                                                </li>
+                                                                @can ('update', $story)
+                                                                    <li>
+                                                                        <a class="btn btn-danger" href="{{ route('stories.edit', $story->id) }}">{{ trans('homepage.edit_post') }}</a>
+                                                                    </li>
+                                                                @endcan
+                                                                @can ('delete', $story)
+                                                                    <li>
+                                                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                                                                        <button type="submit" data-id="{{ $story->id }}" data-path="{{ route('stories.destroy', $story->id)}}" class="btn btn-danger story-delete">{{ trans('homepage.delete') }}</button>
+                                                                    </li>
+                                                                @endcan
                                                                 <li>
                                                                     <button type="submit" id="bookmark" action="{{ route('bookmark', $story->id) }}" class="btn btn-danger bookmark">{{ trans('homepage.bookmark') }}</button>
                                                                 </li>
@@ -312,20 +321,22 @@
                                                         @endforeach
 
                                                         <div id="new-cmt{{ $story->id }}"></div>
-                                                        <li class="post-comment">
-                                                            <div class="comet-avatar">
-                                                                @if (count(Auth::user()->images) != config('number.zero'))
-                                                                    <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
-                                                                @else
-                                                                    <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
-                                                                @endif
-                                                            </div>
-                                                            <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
-                                                                <form>
-                                                                    <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
-                                                                </form>
-                                                            </div>
-                                                        </li>
+                                                        @can ('is-active')
+                                                            <li class="post-comment">
+                                                                <div class="comet-avatar">
+                                                                    @if (count(Auth::user()->images) != config('number.zero'))
+                                                                        <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                                    @else
+                                                                        <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                    @endif
+                                                                </div>
+                                                                <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
+                                                                    <form>
+                                                                        <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
+                                                                    </form>
+                                                                </div>
+                                                            </li>
+                                                        @endcan
                                                     </ul>
                                                 </div>
                                             </div>

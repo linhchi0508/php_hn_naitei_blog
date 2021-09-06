@@ -65,4 +65,6 @@ return [
     'view_more' => 'Xem thêm',
     'home' => 'Trang chủ',
     'story' => 'Bài viết',
+    'sorry' => 'Xin lỗi. Bạn không đủ quyền để truy cập trang web này :))',
+    'backhome' => 'Về trang chủ',
 ];

@@ -23,7 +23,7 @@ Route::group(['middleware' => 'localization'], function () {
 
     Auth::routes();
 
-    Route::resource('stories', 'StoryController')->except(['index']);
+    Route::resource('stories', 'StoryController');
 
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -52,7 +52,7 @@ Route::group(['middleware' => 'localization'], function () {
         Route::delete('follower/{id}', 'FollowController@destroy')->name('follow.destroy');
         Route::get('/edit-profile', 'HomeController@editProfile')->name('edit-profile');
         Route::put('/edit-profile', 'HomeController@updateProfile')->name('edit-profile');
-        Route::resource('comments', 'CommentController')->only(['store', 'update', 'destroy']);
+        Route::resource('comments', 'CommentController');
         Route::post('bookmark/{id}', 'HomeController@bookmark')->name('bookmark');
         Route::get('list-bookmark', 'HomeController@listBookmark')->name('list_bookmark');
         Route::post('like/{id}', 'HomeController@like')->name('like');
