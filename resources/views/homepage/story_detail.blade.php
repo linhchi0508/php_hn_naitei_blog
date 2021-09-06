@@ -30,6 +30,11 @@
                                                             <li>
                                                                 <a class="btn btn-danger" href="#">{{ trans('homepage.bookmark') }}</a>
                                                             </li>
+                                                            @cannot('is-user')
+                                                                <li>
+                                                                    <a class="btn btn-danger" href="#">{{ trans('homepage.hide') }}</a>
+                                                                </li>
+                                                            @endcannot
                                                         </ul>
                                                     </div>
                                                 </div>

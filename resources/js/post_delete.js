@@ -1,6 +1,7 @@
-$(".remove").click(function(){
-    var path = $(this).attr("action");
-    if (confirm("Are you sure ?")) {
+$(".story-delete").click(function(){
+    var path = $(this).attr("data-path");
+    var id = $(this).attr("data-id");
+    if (confirm("Are you sure delete story?")) {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -10,7 +11,7 @@ $(".remove").click(function(){
             url: path,
             type: "delete",
             success: function() {
-                $("#story-list").remove();
+                $("#list-story-" + id).remove();
            }
         });
     }

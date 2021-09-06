@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Story;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoryRequest;
 
@@ -49,6 +50,9 @@ class StoryController extends Controller
     public function edit($id)
     {
         $story = Story::findOrFail($id);
+        if (Gate::denies('story', $story)) {
+            abort(403);
+        }
         $categories = Category::all();
 
         return view('homepage.story_edit', compact('story', 'categories'));
@@ -80,9 +84,14 @@ class StoryController extends Controller
     public function destroy($id)
     {
         $story = Story::findorFail($id);
+        if (Gate::denies('story', $story)) {
+            abort(403);
+        }
         $story->images()->delete();
         $story->delete();
 
-        return redirect()->back()->with('message', trans('message.delete_success'));
+        return response()->json([
+            'success' =>  trans('message.delete_success')
+        ]);
     }
 }

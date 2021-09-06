@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Dashboard' => 'Dashboard',
+    'dasboard' => 'Dashboard',
     'User' => 'User',
     'List_user' => 'List user',
     'Create_user' => 'Create user',
