@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Comment;
+use App\Models\Story;
+use App\Policies\CommentPolicy;
+use App\Policies\StoryPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Models' => 'App\Policies\ModelPolicy',
+        Comment::class => CommentPolicy::class,
+        Story::class => StoryPolicy::class,
     ];
 
     /**
@@ -24,14 +29,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('story', function ($user, $story) {
-            return $user->id == $story->users_id;
-        });
-
-        Gate::define('comment', function ($user, $comment) {
-            return $user->id == $comment->users_id;
-        });
 
         Gate::define('is-admin', function ($user) {
             return $user->roles_id == config('ad.admin');
@@ -45,8 +42,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->roles_id == config('ad.user');
         });
 
-        Gate::define('user-active', function ($user) {
-            return $user->roles_id == config('ad.one');
+        Gate::define('is-active', function ($user) {
+            return $user->status == config('ad.one');
         });
     }
 }

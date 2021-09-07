@@ -161,20 +161,22 @@
                                                         @endif
                                                     @endforeach
                                                     <div id="new-cmt{{ $story->id }}"></div>
-                                                    <li class="post-comment">
-                                                        <div class="comet-avatar">
-                                                            @if (count(Auth::user()->images) != config('number.zero'))
-                                                                <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
-                                                            @else
-                                                                <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
-                                                            @endif
-                                                        </div>
-                                                        <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
-                                                            <form>
-                                                                <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
-                                                            </form>
-                                                        </div>
-                                                    </li>
+                                                    @can ('is-active')
+                                                        <li class="post-comment">
+                                                            <div class="comet-avatar">
+                                                                @if (count(Auth::user()->images) != config('number.zero'))
+                                                                    <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                                @else
+                                                                    <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                @endif
+                                                            </div>
+                                                            <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
+                                                                <form>
+                                                                    <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
+                                                                </form>
+                                                            </div>
+                                                        </li>
+                                                    @endcan
                                                 </ul>
                                             </div>
                                         </div>

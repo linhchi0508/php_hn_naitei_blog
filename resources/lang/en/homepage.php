@@ -65,4 +65,6 @@ return [
     'story' => 'Story',
     'Detail' => 'Detail',
     'Bookmarked' => 'Bookmarked',
+    'sorry' => 'Sorry. You are not authorized to access this site!',
+    'backhome' => 'Back home',
 ];

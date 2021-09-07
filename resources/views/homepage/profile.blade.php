@@ -74,7 +74,7 @@
                                                                     <img class="image-single" src="{{ asset( $story->images[0]->image_url ) }}">
                                                                 </figure>
                                                             @endif
-                                                            @if(count($story->images) >  config('ad.one'))
+                                                            @if(count($story->images) > config('ad.one'))
                                                                 <figure>
                                                                     <div id="demo"  class="carousel slide row"  data-ride="carousel"> 
                                                                         <div class="carousel-inner col-12" >
@@ -134,7 +134,7 @@
                                                                             </div>
                                                                             <div class="we-comment">
                                                                                 <h5><a href title="">{{ $comment->user->username }}</a></h5>
-                                                                                <p>{{ $comment->content }}</p>
+                                                                                <p class="cmt-content{{ $comment->id }}">{{ $comment->content }}</p>
                                                                                 <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
                                                                                     <span>{{ $comment->created_at}}</span>
                                                                                     <a class="we-reply" href title="{{ trans('homepage.reply') }}"><i class="fa fa-reply"></i></a>
@@ -143,11 +143,17 @@
                                                                                     <a class="edit-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.edit') }}</a>
                                                                                     <a class="delete-cmt" attr-cmt_id="{{ $comment->id }}" href="">{{ trans('homepage.delete') }}</a>
                                                                                 @endif
+                                                                                @can ('is-admin')
+                                                                                <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                @endcan
+                                                                                @can ('is-inspector')
+                                                                                    <a class="hide-cmt" attr-id_cmt="{{ $comment->id }}" href="{{ route('hide-comment', $comment->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                @endcan
                                                                             </div>
                                                                         </li>
                                                                         <!-- display comment child -->
                                                                         @foreach ($story->comments as $item)
-                                                                            @if ($item->parent == $comment->id)
+                                                                            @if ($item->parent == $comment->id && $item->status == config('number.one'))
                                                                                 <li class="replied">
                                                                                     <div class="comet-avatar">
                                                                                         @if (count($item->user->images) != config('ad.zero'))
@@ -166,6 +172,12 @@
                                                                                             <a class="edit-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.edit') }}</a>
                                                                                             <a class="delete-cmt" attr-cmt_id="{{ $item->id }}" href>{{ trans('homepage.delete') }}</a>
                                                                                         @endif
+                                                                                        @can ('is-admin')
+                                                                                            <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                        @endcan
+                                                                                        @can ('is-inspector')
+                                                                                            <a class="hide-cmt" attr-id_cmt="{{ $item->id }}" href="{{ route('hide-comment', $item->id) }}">{{ trans('homepage.hide') }}</a>
+                                                                                        @endcan
                                                                                     </div>
                                                                                 </li>
                                                                             @endif
@@ -175,20 +187,22 @@
                                                                 @endif
                                                             @endforeach
                                                             <div id="new-cmt{{ $story->id }}"></div>
-                                                            <li class="post-comment">
-                                                                <div class="comet-avatar">
-                                                                    @if (count(Auth::user()->images) != config('ad.zero'))
-                                                                        <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
-                                                                    @else
-                                                                        <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
-                                                                    @endif
-                                                                </div>
-                                                                <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
-                                                                    <form>
-                                                                        <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
-                                                                    </form>
-                                                                </div>
-                                                            </li>
+                                                            @can ('is-active')
+                                                                <li class="post-comment">
+                                                                    <div class="comet-avatar">
+                                                                        @if (count(Auth::user()->images) != config('ad.zero'))
+                                                                            <img class="cmt-image" src="{{ asset(Auth::user()->images[0]->image_url) }}" alt="">
+                                                                        @else
+                                                                            <img class="cmt-image" src="{{ asset('storage/image/default_user.jpg') }}" alt="">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="post-comt-box" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}">
+                                                                        <form>
+                                                                            <input id="pacmt{{ $story->id }}" class="cmt pacmt" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" placeholder="{{ trans('homepage.post_your_comment') }}" type="text">
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            @endcan
                                                         </ul>
                                                     </div>
                                                 </div>

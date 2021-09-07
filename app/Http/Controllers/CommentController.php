@@ -12,37 +12,38 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        if (Gate::denies('user-active')) {
-            abort(403);
-        }
         $this->middleware('auth');
     }
-    
+
     public function store(Request $request)
     {
-        $data = $request->all();
-        $comment = Comment::create($data);
+        if (Gate::allows('is-active')) {
+            $data = $request->all();
+            $comment = Comment::create($data);
 
-        $created_time = $comment->created_at;
-        $createAt = Carbon::parse($comment->created_at);
-        $time = $createAt->format('Y-m-d H:m:s');
-        $userName = Auth::user()->username;
-        $userImg = (Auth::user()->images)[0]->image_url;
+            $created_time = $comment->created_at;
+            $createAt = Carbon::parse($comment->created_at);
+            $time = $createAt->format('Y-m-d H:m:s');
+            $userName = Auth::user()->username;
+            $userImg = (Auth::user()->images)[0]->image_url;
 
-        if ($comment) {
-            return response()->json([
-                'success' => 'success',
-                'content' => $data['content'],
-                'id' => $comment->id,
-                'user_id' => Auth::id(),
-                'story_id' => $data['stories_id'],
-                'parent' => $data['parent'],
-                'time' => $time,
-                'user_name' => $userName,
-                'user_img' => $userImg,
-            ]);
+            if ($comment) {
+                return response()->json([
+                    'success' => 'success',
+                    'content' => $data['content'],
+                    'id' => $comment->id,
+                    'user_id' => Auth::id(),
+                    'story_id' => $data['stories_id'],
+                    'parent' => $data['parent'],
+                    'time' => $time,
+                    'user_name' => $userName,
+                    'user_img' => $userImg,
+                ]);
+            } else {
+                return response('fail');
+            }
         } else {
-            return response('fail');
+            abort(403);
         }
     }
 
@@ -55,12 +56,10 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $data = $request->all();
         $comment = Comment::findOrFail($id);
-        if (Gate::denies('story', $comment)) {
-            abort(403);
-        }
+        $this->authorize('update', $comment);
+
         if ($comment != null) {
             $comment->content = $data['content'];
             $comment->save();
@@ -84,6 +83,9 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        $cmt = Comment::findOrFail($id);
+        $this->authorize('delete', $cmt);
+
         $comment = Comment::withTrashed()->where('id', $id)->forceDelete();
         if ($comment != null) {
             $child = Comment::where('parent', $id);
@@ -103,24 +105,25 @@ class CommentController extends Controller
 
     public function hideComment($id)
     {
-        $comment = Comment::findOrFail($id);
-        if (Gate::denies('story', $comment)) {
-            abort(403);
-        }
-        $child = Comment::where('parent', $id);
-        if ($comment != null) {
-            $comment->delete();
-            if ($child != null) {
-                $child->delete();
-            }
+        if (Gate::allows('is-admin') || Gate::allows('is-inspector')) {
+            $comment = Comment::findOrFail($id);
+            $child = Comment::where('parent', $id);
+            if ($comment != null) {
+                $comment->delete();
+                if ($child != null) {
+                    $child->delete();
+                }
 
-            return response()->json([
-                'message' => 'success',
-            ]);
+                return response()->json([
+                    'message' => 'success',
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'fail',
+                ]);
+            }
         } else {
-            return response()->json([
-                'message' => 'fail',
-            ]);
+            abort(403);
         }
     }
 }
