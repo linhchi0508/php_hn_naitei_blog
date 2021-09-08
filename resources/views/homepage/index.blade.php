@@ -266,7 +266,7 @@
                                                                             @endif
                                                                         </div>
                                                                         <div class="we-comment">
-                                                                            <h5><a href title="">{{ $comment->user->username }}</a></h5>
+                                                                            <h5><a href="{{ route('user-detail', $comment->users_id) }}" title="">{{ $comment->user->username }}</a></h5>
                                                                             <p class="cmt-content{{ $comment->id }}">{{ $comment->content }}</p>
                                                                             <div class="inline-itms" attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
                                                                                 <span>{{ $comment->created_at }}</span>
@@ -296,7 +296,7 @@
                                                                                     @endif
                                                                                 </div>
                                                                                 <div class="we-comment">
-                                                                                    <h5><a href title="">{{ $item->user->username }}</a></h5>
+                                                                                    <h5><a href="{{ route('user-detail', $item->user->id) }}" title="">{{ $item->user->username }}</a></h5>
                                                                                     <p class="cmt-content{{ $item->id }}">{{ $item->content }}</p>
                                                                                     <div attr-story_id="{{ $story->id }}" attr-user_id="{{ Auth::id() }}" attr-id="{{ $comment->id }}">
                                                                                         <span>{{ $item->created_at }}</span>

@@ -14,6 +14,7 @@ use Session;
 use App\Models\Image;
 use App\Models\Bookmark;
 use App\Models\Like;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller
 {
@@ -136,12 +137,16 @@ class HomeController extends Controller
 
     public function listBookmark()
     {
-        $bookmark = Bookmark::with(['story', 'user'])->where('users_id', Auth::id())->orderBy('id', 'desc')->get();
+        $bookmark = Bookmark::with(['story', 'user', 'user.images'])
+            ->where('users_id', Auth::id())->orderBy('id', 'desc')->get();
         return view('homepage.list_bookmark', compact('bookmark'));
     }
 
     public function like($id)
     {
+        if (Gate::denies('user-active')) {
+            abort(403);
+        }
         $data = new Like();
         $data->user_id = Auth::id();
         $data->story_id = $id;

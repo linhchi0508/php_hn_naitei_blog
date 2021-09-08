@@ -16,7 +16,6 @@ class StorySeeder extends Seeder
         for ($i = 0; $i < $limit; $i++) 
         {
             DB::table('stories')->insert([
-            	'title' => $faker->text($maxNbChars = 50),
             	'status' => $faker->randomElement(['public', 'unlisted', 'draft']),
             	'content' => $faker->text,
             	'categories_id' => $faker->numberBetween(1,5),

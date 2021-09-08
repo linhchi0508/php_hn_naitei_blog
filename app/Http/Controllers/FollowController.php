@@ -38,7 +38,7 @@ class FollowController extends Controller
 
     public function follow($id)
     {
-        if (Gate::denies('user-active')) {
+        if (Gate::denies('is-active')) {
             abort(403);
         }
         $followDataArray = array(
@@ -54,7 +54,7 @@ class FollowController extends Controller
 
     public function destroy($id)
     {
-        if (Gate::denies('user-active')) {
+        if (Gate::denies('is-active')) {
             abort(403);
         }
         $user = Auth::user()->follows->where('following_id', $id)->first();

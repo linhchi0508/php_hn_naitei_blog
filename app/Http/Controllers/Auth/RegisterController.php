@@ -69,7 +69,7 @@ class RegisterController extends Controller
         $user->username = $data['username'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
-        $user->roles_id = 3;   // 3 is user, 2 is inspector, 1 is admin
+        $user->roles_id = config('role.user');
         $user->save();
         
         return $user;
